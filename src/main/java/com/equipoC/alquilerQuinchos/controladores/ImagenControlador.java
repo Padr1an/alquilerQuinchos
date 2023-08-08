@@ -1,8 +1,10 @@
 package com.equipoC.alquilerQuinchos.controladores;
 
+import com.equipoC.alquilerQuinchos.entidades.Imagen;
 import com.equipoC.alquilerQuinchos.entidades.Inmueble;
 import com.equipoC.alquilerQuinchos.entidades.Usuario;
 import com.equipoC.alquilerQuinchos.excepciones.MiException;
+import com.equipoC.alquilerQuinchos.repositorios.ImagenRepositorio;
 import com.equipoC.alquilerQuinchos.servicios.ImagenServicio;
 import com.equipoC.alquilerQuinchos.servicios.InmuebleServicio;
 import com.equipoC.alquilerQuinchos.servicios.UsuarioServicio;
@@ -25,6 +27,8 @@ public class ImagenControlador {
     InmuebleServicio inmuebleservicio;
     @Autowired
     ImagenServicio imagenServicio;
+    @Autowired
+    ImagenRepositorio imagenRepositorio;
 
     @GetMapping("/perfil/{id}")
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {
@@ -47,7 +51,16 @@ public class ImagenControlador {
 
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
     }
+    @GetMapping("/lista/{id}")
+    public ResponseEntity<byte[]> listaImagen(@PathVariable String id) {
+        Imagen imagine = imagenRepositorio.getOne(id);
+        byte[] imagen = imagine.getContenido();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
 
+        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+
+    }
     @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") String id) throws MiException {
 

@@ -47,7 +47,7 @@
                     </tr>
                     <tbody>
                     <tr th:each="imagen : ${imagenes}">
-                        <td><img th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
+                        <td><img th:src="@{'/imagen/lista/'+${imagen.id}}" alt="Imagen del inmueble"></a></td>
                         <td>
                             <form th:action="@{/imagen/eliminar/{id}(id=${imagen.id})}" method="post"
                                   style="display: inline; max-width: 10px">

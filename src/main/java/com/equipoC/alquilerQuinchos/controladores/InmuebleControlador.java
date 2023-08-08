@@ -108,6 +108,7 @@ public class InmuebleControlador {
     @GetMapping("/modificar/{id}")
     public String mostrarFormularioModificarInmueble(@PathVariable Long id, ModelMap modelo) {
         List<Imagen> imagen = imagenRepositorio.buscarImagenesPorIdDeInmb(id);
+
         Inmueble inmueble = inmuebleServicio.getOne(id);
         modelo.addAttribute("inmueble", inmueble);
         modelo.addAttribute("imagenes", imagen);
