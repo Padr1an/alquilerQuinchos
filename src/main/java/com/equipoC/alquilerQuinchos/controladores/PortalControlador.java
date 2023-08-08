@@ -120,6 +120,7 @@ public class PortalControlador {
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.addAttribute("usuario", usuario);
+
         return "usuario_modificar.html";
     }
 

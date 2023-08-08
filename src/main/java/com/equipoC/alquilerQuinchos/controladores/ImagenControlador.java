@@ -61,12 +61,16 @@ public class ImagenControlador {
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
 
     }
-    @PostMapping("/eliminar/{id}")
+    @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") String id) throws MiException {
+        try {
+            imagenServicio.eliminarImagen(id);
+        }catch (MiException e){
+            new MiException("no se pudo eliminar la imagen");
+        }
 
-        imagenServicio.eliminarImagen(id);
 
-        return "redirect:../../inmueble/mis_inmuebles";
+        return "../";
 
     }
 }
