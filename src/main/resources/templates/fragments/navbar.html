@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand navbar-dark bg-FF6F00">
+
+    <style>
+
+        .imagenlogo{
+            width: 165px;
+            height: 85px;
+        }
+
+        .profile {
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .nav-link{
+            font-size: 26px;
+            font-weight:  bold;
+        }
+
+        .dropdown-item,
+        .dropdown-item:focus,
+        .dropdown-item:active{
+            background-color: white;
+            color: #FF6F00;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .dropdown-item:hover{
+            background-color: #FF6F00;
+            color: white;
+        }
+    </style>
+
+    <div class="container-fluid">
+        <a href="/"> <img class="imagenlogo" src="/img/logo-alquiler-para-fiestas.png" alt="logo"></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse4">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav" font-size="40px">
+            <a class="nav-item nav-link active ms-3" th:if="${session.usuariosession==null}" href="/"><h5>Home</h5></a>
+            <a class="nav-item nav-link active ms-3" sec:authorize="hasRole('PROPIETARIO') || hasRole('CLIENTE') || hasRole('ADMIN')" th:if="${session.usuariosession!=null} " href="/inicio"><h5>Inicio</h5></a>
+            <a class="nav-item nav-link active ms-3" href="/nosotros"><h5>Nosotros</h5></a>
+            <a class="nav-item nav-link active ms-3" th:href="@{/inmueble/registrar}" sec:authorize="hasRole('PROPIETARIO')"><h5>Crear Inmueble</h5></a>
+            <a class="nav-item nav-link active ms-3" th:href="@{/inmueble/mis_inmuebles}" sec:authorize="hasRole('PROPIETARIO')"><h5>Mis Inmuebles</h5></a>
+            <a class="nav-item nav-link active ms-3" th:href="@{/mis_reservas}" th:if="${session.usuariosession!=null} "><h5>Mis Reservas</h5></a>
+            <a class="nav-item nav-link active ms-3" th:href="@{/admin/usuarios}"><h5 th:if="${esAdmin}" >Dashboard</h5></a>
+            <a class="nav-item nav-link active ms-3" href="/login" th:if="${session.usuariosession == null}"><h5>Iniciar sesión</h5></a>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse2">
+            <div class="navbar-nav">
+                <div class="d-flex">
+                    <img class="profile" th:if="${session.usuariosession != null}" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:if="${session.usuariosession != null}" th:text="'Hola, ' + ${session.usuariosession.nombre}"></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/perfil/{id}(id=${session.usuariosession.id})}">Modificar Perfil</a></li>
+                            <!--<li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/perfil}">Panel</a></li>-->
+                            <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/logout}">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

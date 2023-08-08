@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calendario</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js' type='text/javascript'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.es.min.js'></script> <!-- Localización para español -->
+
+</head>
+
+<body>
+<main class="container">
+    <section class="col-sm-12">
+        <div class="form-group">
+            <div class='input-group date' id='datepicker1'>
+                <input type='text' class="form-control" title="in" />
+                <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+            </div>
+        </div>
+
+    </section>
+    <section class="col-sm-12">
+        <div class="form-group">
+            <div class='input-group date' id='datepicker2'>
+                <input type='text' class="form-control" title="out" />
+                <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+            </div>
+        </div>
+
+    </section>
+    <footer>
+
+    </footer>
+</main>
+
+<script type="text/javascript">
+
+    $(function() {
+        // Lógica de disponibilidad (arreglo de fechas ocupadas)
+        var fechasOcupadas = [];
+
+        // Fechas a deshabilitar
+        var fechasDeshabilitadas = ["30-07-2023"];
+
+        $('#datepicker1').datepicker({
+            language: 'es', // Establecer idioma en español
+            startDate: new Date(), // Evitar seleccionar fechas anteriores a hoy
+            beforeShowDay: function(date) {
+                var dateString = moment(date).format('DD-MM-YYYY');
+                if (fechasOcupadas.indexOf(dateString) !== -1) {
+                    // Establecer clase para fechas ocupadas
+                    return [false, 'fechas-ocupadas'];
+                } else {
+                    // Establecer clase para fechas disponibles
+                    return [true, 'fechas-disponibles'];
+                }
+            },
+            datesDisabled: fechasDeshabilitadas // Deshabilitar fechas específicas
+        });
+    });
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/inmuebles.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    </head>
+    <body>
+
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+
+        <br><br><br>
+
+
+        <div  class="card-container">
+            <div class="card">
+                <h3 class="card-title">Mis inmuebles</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Inmueble</th>
+                            <th>Ubicación</th>
+                            <th>Imagenes</th>
+                            <th>Reservas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="inmueble : ${misInmuebles}">
+                            <td th:text="${inmueble.nombre}"></td>
+                            <td th:text="${inmueble.ubicacion}"></td>
+                            <td><a th:href="@{'/inmueble/detalles/' + ${inmueble.id}}"><img  width="200px" height="200px" th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
+                            <td>
+                                <table>
+                                    <!--<tr th:each="reservas : ${reservas}">
+                                      <td th:text="${#dates.format(reservas.fechaBaja, 'dd-MM-yyyy')}"></td>
+                                    </tr>-->
+                                </table>
+                            </td>
+                            <td>
+                                <a th:href="@{/inmueble/modificar/{id}(id=${inmueble.id})}" class="violetlink">Modificar</a>
+
+                                <form th:action="@{/inmueble/eliminar/{id}(id=${inmueble.id})}" method="post" style="display: inline;">       
+                                    <button type="submit" class="btn btn-link">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

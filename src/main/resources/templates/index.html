@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    </head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+        <br>
+
+        <div class="container mt-4">
+            <form th:action="@{/}">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 mb-3">
+                        <div class="searchwords">
+                            <input type="checkbox" value="cochera"class="form-check-input" id="conCochera">
+                            <label class="form-check-label"  for="conCochera">Con Cochera</label>
+
+                            <input type="checkbox" value="pileta" class="form-check-input" id="conPileta">
+                            <label class="form-check-label" for="conPileta">Con Pileta</label>
+
+                            <input type="checkbox" value="parrilla" class="form-check-input" id="conParrilla">
+                            <label class="form-check-label" for="conParrilla">Con Parrilla</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" th:value="${search}"
+                                   placeholder="Encuentra un lugar para tu evento">
+                            <button class="boton" type="submit">Buscar</button>
+                            <a class="boton" type="button" value="limpiar" href="/inicio">Limpiar</a>
+                            <!--<a class="boton" type="button" value="limpiar" onclick= th:href = "/inicio">Limpiar</a>-->
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+
+            <br><br>
+
+            <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card-container">
+                        <div class="card" th:each="inmueble : ${x}">
+                            <img th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" class="pictures" alt="Imagen del inmueble">
+
+                            <div class="small-card">
+                                <h6 th:text="${inmueble.nombre}"></h6>
+                                <p th:text="${inmueble.ubicacion}"></p>
+                                <a class="boton" type="button" th:href="@{'/reserva/alta/' + ${inmueble.id}}">Reserva !</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!--<nav aria-label="...">
+            <ul class="form-check">
+                <li><a class="page-link" href="#">1</a></li>
+                <li><a class="page-link" href="#">2</a></li>
+                <li><a class="page-link" href="#">3</a></li>
+            </ul>
+        </nav>-->
+
+        <br><br><br>
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>

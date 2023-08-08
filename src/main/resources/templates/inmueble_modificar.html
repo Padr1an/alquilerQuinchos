@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/formularios.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    </head>
+    <body>
+
+    <nav th:replace="/fragments/navbar :: nav"></nav>
+
+    <br><br><br>
+
+    <div class="card-container">
+        <div class="card">
+            <h3 class="card-title">Modificar Inmueble</h3>
+            <form th:action="@{/inmueble/modificar/{id}(id=${inmueble.id})}" method="post" enctype="multipart/form-data">
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre del Inmueble"
+                       th:value="${inmueble.nombre}">
+                <input type="text" class="form-control" name="ubicacion" placeholder="Ubicacion del Inmueble"
+                       th:value="${inmueble.ubicacion}">
+
+                <input th:value="${inmueble.cochera}" type="checkbox" class="form-check-input" id="conCochera"
+                       name="cochera" th:checked="${inmueble.cochera}">
+                <label class="form-check-label" for="conCochera">Con Cochera</label>
+
+                <input th:value="${inmueble.parrilla}" type="checkbox" class="form-check-input" id="conParrilla"
+                       name="parrilla" th:checked="${inmueble.parrilla}">
+                <label class="form-check-label" for="conParrilla">Con Parrilla</label>
+
+                <input type="checkbox" class="form-check-input" id="conPileta" name="pileta"
+                       th:checked="${inmueble.pileta}">
+                <label class="form-check-label" for="conPileta">Con Pileta</label>
+
+                <input th:value="${inmueble.precioBase}" type="number" class="form-control" name="precioBase"
+                       placeholder="Precio Base">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Imágenes</th>
+                        <th>Aciones</th>
+                    </tr>
+                    <tbody>
+                    <tr th:each="imagen : ${imagenes}">
+                        <td><img th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
+                        <td>
+                            <form th:action="@{/imagen/eliminar/{id}(id=${imagen.id})}" method="post"
+                                  style="display: inline; max-width: 10px">
+                                <button type="submit" class="btn btn-danger">Eliminar <i class="fa fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <input type="file" class="form-control" name="archivosImagenes" accept="image/*"
+                       placeholder="Imagen del Inmueble" multiple>
+
+                <button type="submit" class="boton">Actualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <footer th:replace="/fragments/footer :: footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

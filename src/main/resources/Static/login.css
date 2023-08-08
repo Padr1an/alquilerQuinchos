@@ -1,0 +1,92 @@
+.card-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFC107;
+    color: #4e247f;
+    padding: 30px;
+    z-index: 2;
+    width: 400px;
+    height: 350px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.card-container h5 {
+    margin-bottom: 20px;
+}
+
+.card-container label {
+    margin-bottom: 10px;
+}
+
+.card-container .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.card-container .form-group label {
+    margin-right: 10px;
+}
+
+.card-container .search-button {
+    background-color: #FF6F00;
+    color: white;
+    border-color: #FF6F00;
+}
+
+.card-container .register-link {
+    color: white;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.card-container .register-link a {
+    color: white;
+    text-decoration: none;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.carousel {
+    width: 100%;
+}
+
+.form-control {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+}
+
+.boton,
+.boton:focus,
+.boton:active,
+.boton:hover {
+    margin-left:  5px;
+    background-color: #4e247f;
+    color: #FFC107;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+}
+
+.boton:focus,
+.boton:active,
+.boton:hover {
+    outline: none;
+    background-color: #663399;
+}

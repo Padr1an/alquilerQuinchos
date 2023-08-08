@@ -1,0 +1,29 @@
+<div th:fragment="msg" class="container-fluid">
+    
+    <style>
+        
+        .container-fluid{
+            padding: 0;
+            width: 100%;
+            height: auto;
+            border-color: black; 
+            border-radius: 5px;
+            margin: auto;
+            text-align: center; 
+        }  
+    </style>
+    
+<div class="card text-white bg-danger mb-3 mensajeError" th:if="${error != null}"  >
+             <div class="card-body">
+                <h5 class="card-title">Error!</h5>
+                <label th:text="${error}"></label>
+            </div>
+</div>
+    
+        <div class="card text-white bg-success mb-3 mt-3 mensajeExito" th:if="${exito != null}"  >
+            <div class="card-body">
+                <h5 class="card-title">Exito!</h5>
+               <label th:text="${exito}"></label>
+            </div>
+        </div>
+</div>

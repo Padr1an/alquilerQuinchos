@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="login.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    </head>
+    <body>
+
+
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+
+        <div class="carousel-container">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/img/fondo_login.jpg" class="d-block w-100" alt="imagen">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-container">
+            <form th:action="@{/logincheck}" method="POST">
+                <h5>Iniciar sesión</h5>
+                <label for="email">Email</label>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="email" name="email">
+                </div>
+                <label for="password">Contraseña</label>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-sm" id="password" name="password">
+                </div>
+                <button type="submit" class="boton">Ingresar</button>
+                <div class="register-link">
+                    ¿No tienes cuenta? <a href="/registrar">Regístrate</a>
+                </div>
+            </form>
+        </div>
+
+
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+crossorigin="anonymous"></script>
+</body>
+
+</html>

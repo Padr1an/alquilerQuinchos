@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/formularios.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    </head>
+    
+    <body>
+
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+        <br><br><br>
+
+        <div class="card-container">
+            <div class="card">
+                <h3 class="card-title">Crear Inmueble</h3>
+                <form th:action="@{/inmueble/crear_inmueble}" method="post" enctype="multipart/form-data">
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre del Inmueble">
+                    <input type="text" class="form-control" name="ubicacion" placeholder="Ubicacion del Inmueble">
+
+                    <input type="checkbox" class="form-check-input" id="conCochera" name="cochera">
+                    <label class="form-check-label" for="conCochera">Con Cochera</label>
+
+                    <input type="checkbox" class="form-check-input" id="parrilla" name="parrilla">
+                    <label class="form-check-label" for="conParrilla">Con Parrilla</label>
+
+                    <input type="checkbox" class="form-check-input" id="pileta" name="pileta">
+                    <label class="form-check-label" for="conPileta">Con Pileta</label>
+
+                    <input type="number" class="form-control" name="precioBase" placeholder="Precio Base">
+                    <input type="file" class="form-control" name="archivosImagenes" accept="image/*" placeholder="Imagen del Inmueble" multiple>
+                    <button type="submit" class="boton">Crear Inmueble</button>
+                </form>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head>
+        <title>Alquiler para fiestas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="nosotros.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    </head>
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        
+        <div class="carousel-container">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/img/festive-blue-firework.jpg" class="d-block w-100" alt="imagen">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="column">
+                        <h2 class="titles">Misión</h2>
+                        <br>
+                        <p>En "Alquiler para fiestas", nuestra misión es crear una plataforma en línea que conecte a los propietarios
+                            de quinchos, casas de fin de semana, quintas y casas con pileta para eventos con aquellos que buscan un
+                            espacio acogedor y adecuado para sus encuentros casuales, asados y otros eventos especiales. Buscamos
+                            brindar a nuestros usuarios una experiencia sencilla y segura para reservar y disfrutar de estos espacios
+                            únicos, facilitando la planificación y organización de sus eventos, y promoviendo momentos memorables
+                            junto a sus seres queridos.</p>
+                    </div>
+                    <div class="column">
+                        <h2 class="titles">Visión</h2>
+                        <br>
+                        <p>Nuestra visión en "Alquiler para fiestas" es convertirnos en la plataforma líder en alquiler de espacios
+                            para eventos y encuentros informales en nuestra región. Deseamos ser reconocidos por nuestra dedicación
+                            para ofrecer una amplia variedad de opciones, desde quinchos tradicionales hasta espacios más exclusivos
+                            con comodidades adicionales, todo en un entorno confiable y de fácil acceso. Aspiramos a ser la primera
+                            opción tanto para propietarios que desean anunciar sus lugares como para aquellos que buscan un ambiente
+                            acogedor para compartir momentos especiales con familiares y amigos.</p>
+                    </div>
+                    <div class="column">
+                        <h2 class="titles">Quienes Somos</h2>
+                        <br>
+                        <p>El equipo detrás de "Alquiler para fiestas" está compuesto por un grupo apasionado de profesionales en el
+                            campo del desarrollo web y la gestión de proyectos. Nos comprometemos a trabajar arduamente para mantener una
+                            interfaz intuitiva, garantizar la calidad de los espacios anunciados y promover un entorno seguro y
+                            confiable para todas las transacciones.<br>
+                            Nuestro objetivo es seguir innovando y expandiendo nuestros servicios para adaptarnos a las necesidades
+                            cambiantes de nuestros usuarios, proporcionando una solución integral que simplifique y mejore la
+                            experiencia de reserva y organización de eventos. Creemos en la importancia de conectar a las personas a
+                            través de espacios compartidos y memorables, y eso nos impulsa a seguir creciendo y evolucionando con
+                            "Alquiler para fiestas".</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <footer th:replace="/fragments/footer :: footer"></footer>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+    </body>
+</html>

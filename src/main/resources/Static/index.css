@@ -1,0 +1,96 @@
+.searchwords{
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.form-control {
+    border-color: #4e247f;
+}
+
+.form-check {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-check-label {
+    color: #4e247f;
+    margin-right: 25px;
+    justify-content: center;
+}
+
+.form-check li a{
+    background-color: #FFC107;
+    color: #4e247f;
+    font-size: 24px;
+}
+
+.form-check li a:active,
+.form-check li a:focus,
+.form-check li a:hover {
+    background-color: #4e247f;
+    color: #FFC107;
+}
+
+.boton,
+.boton:focus,
+.boton:active,
+.boton:hover {
+    margin-right: 5px;
+    background-color: #4e247f;
+    color: #FFC107;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+}
+
+.boton:focus,
+.boton:active,
+.boton:hover {
+    outline: none;
+    background-color: #663399;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    justify-items: center;
+}
+
+.card {
+    border: 4px solid #FFC107;
+    width: 250px;
+    height: 350px;
+    margin: 10px;
+    position: relative;
+}
+
+.pictures{
+    width: 243px;
+    height: 343px;
+}
+
+.small-card {
+    border: 1px solid #FFC107;
+    width: 150px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    position: absolute;
+    line-height: 0.9;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FFC107;
+    color: #4e247f;
+}
