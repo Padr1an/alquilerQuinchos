@@ -102,6 +102,7 @@ public class InmuebleControlador {
         /*List<Reserva> reservas = reservaServicio.listarReservas();
         model.addAttribute("reservas", reservas);*/
 
+
         return "mis_inmuebles.html";
     }
 
