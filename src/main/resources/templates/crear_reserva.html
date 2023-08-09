@@ -77,6 +77,7 @@
 
     $(function () {
         // Lógica de disponibilidad (arreglo de fechas ocupadas)
+        var min2Fecha;
         var listaAlta = document.getElementById("lista_alta");
         var listaBaja = document.getElementById("lista_baja");
 
@@ -85,15 +86,16 @@
 
         console.log(listaAlta.value)
         // Fechas a deshabilitar
-        var fechasDeshabilitadas = ["2023-08-21"];
+        var fechasDeshabilitadas = listaAlta.value;
 
         $('#datepicker1').datepicker({
             language: 'es', // Establecer idioma en español
             format: 'yyyy-mm-dd',
             orientation: "auto left",
             startDate: new Date(), // Evitar seleccionar fechas anteriores a hoy
+            datesDisabled: fechasDeshabilitadas, // Deshabilitar fechas específicas
             beforeShowDay: function (date) {
-                var dateString = moment(date).format('YYYY-MM-DD');
+                min2Fecha = moment(date).format('YYYY-MM-DD');
                 if (altasOcupadas.indexOf(dateString) !== -1) {
                     // Establecer clase para fechas ocupadas
                     return [false, 'fechas-ocupadas'];
@@ -102,13 +104,18 @@
                     return [true, 'fechas-disponibles'];
                 }
             },
-            datesDisabled: fechasDeshabilitadas // Deshabilitar fechas específicas
+
+
         });
+        var fechaMin = new Date();
+        fechaMin.setTime(Date.parse(min2Fecha));
 
         $('#datepicker2').datepicker({
             language: 'es', // Establecer idioma en español
             format: 'yyyy-mm-dd',
             startDate: new Date(), // Evitar seleccionar fechas anteriores a hoy
+            minDate: fechaMin,
+            datesDisabled: fechasDeshabilitadas, // Deshabilitar fechas específicas
             beforeShowDay: function (date) {
                 var dateString = moment(date).format('YYYY-MM-DD');
                 if (bajasOcupadas.indexOf(dateString) !== -1) {
@@ -119,7 +126,7 @@
                     return [true, 'fechas-disponibles'];
                 }
             },
-            datesDisabled: fechasDeshabilitadas // Deshabilitar fechas específicas
+
         });
     });
 </script>
