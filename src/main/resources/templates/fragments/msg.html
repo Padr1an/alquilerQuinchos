@@ -1,29 +1,53 @@
-<div th:fragment="msg" class="container-fluid">
-    
+<div th:fragment="msg" class="container-fluid" id="msg">
+
     <style>
         
         .container-fluid{
-            padding: 0;
-            width: 100%;
-            height: auto;
-            border-color: black; 
+            position: relative;
+        }
+  
+        #error{
+            position: absolute;
+            left: 50%;
+            justify-content: center;
+            align-content: center;
+            width: 400px;
             border-radius: 5px;
-            margin: auto;
-            text-align: center; 
-        }  
+            text-align: center;
+            border: solid 2px;
+            border-color: brown;
+            z-index: 2;
+            margin-top: 3.5%;
+            transform: translate(-50%, -50%);
+            display: flex;
+        }
+        
+         #exito{
+            position: relative;
+            justify-content: center;
+            align-content: center;
+            width: 400px;
+            border-radius: 5px;
+            text-align: center;
+            border: solid;
+            border-color: green;
+            z-index: 2; 
+        }
+        
     </style>
-    
-<div class="card text-white bg-danger mb-3 mensajeError" th:if="${error != null}"  >
-             <div class="card-body">
-                <h5 class="card-title">Error!</h5>
-                <label th:text="${error}"></label>
-            </div>
-</div>
-    
-        <div class="card text-white bg-success mb-3 mt-3 mensajeExito" th:if="${exito != null}"  >
-            <div class="card-body">
-                <h5 class="card-title">Exito!</h5>
-               <label th:text="${exito}"></label>
-            </div>
+    <div class="container-fluid text-white bg-danger mb-3 d-flex justify-content-center mensajeError" th:if="${error != null}" id="error" >
+        <div class="card-body">
+            <h5 class="card-title"><strong>Error!</strong></h5>
+            <label th:text="${error}"></label>
+            
         </div>
+    </div>
+    
+    <div class="container-fluid text-white bg-success mb-3 mt-3 mensajeExito" th:if="${exito != null}" id="exito" >
+        <div class="card-body">
+            <h5 class="card-title"><strong>Exito!</strong></h5>
+            <label th:text="${exito}"></label>
+        </div>
+    </div>
+       
 </div>
