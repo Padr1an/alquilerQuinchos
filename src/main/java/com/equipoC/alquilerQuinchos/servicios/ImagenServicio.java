@@ -1,4 +1,3 @@
-
 package com.equipoC.alquilerQuinchos.servicios;
 
 import com.equipoC.alquilerQuinchos.entidades.Comentarios;
@@ -15,11 +14,11 @@ import javax.transaction.Transactional;
 
 @Service
 public class ImagenServicio {
-    
+
     @Autowired
     private ImagenRepositorio imagenRepositorio;
 
-    public Imagen guardar(MultipartFile archivo) throws MiException{
+    public Imagen guardar(MultipartFile archivo) throws MiException {
         if (archivo != null) {
             try {
                 Imagen imagen = new Imagen();
@@ -31,11 +30,11 @@ public class ImagenServicio {
                 System.out.println(e.getMessage());
             }
         }
-       
+
         return null;
     }
 
-/*    public Imagen guardarImgComentario(MultipartFile archivo) throws MiException {
+    /*    public Imagen guardarImgComentario(MultipartFile archivo) throws MiException {
 
 
         if (archivo != null) {
@@ -52,21 +51,20 @@ public class ImagenServicio {
 
         return null;
     }*/
-    
-    public Imagen actualizar (MultipartFile archivo, String idImagen) throws MiException{
-         if (archivo != null) {
+    public Imagen actualizar(MultipartFile archivo, String idImagen) throws MiException {
+        if (archivo != null) {
             try {
                 Imagen imagen = new Imagen();
                 if (idImagen != null) {
                     Optional<Imagen> respuesta = imagenRepositorio.findById(idImagen);
                     if (respuesta.isPresent()) {
                         imagen = respuesta.get();
-                        imagen.setMime(archivo.getContentType());
-                        imagen.setNombre(archivo.getName());
-                        imagen.setContenido(archivo.getBytes());
-                        return imagenRepositorio.save(imagen);
                     }
                 }
+                imagen.setMime(archivo.getContentType());
+                imagen.setNombre(archivo.getName());
+                imagen.setContenido(archivo.getBytes());
+                return imagenRepositorio.save(imagen);
                 //imagen.setComentarios(); tal vez sea necesario a la hora de hacer los coments.
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -74,6 +72,7 @@ public class ImagenServicio {
         }
         return null;
     }
+
     @Transactional
     public void eliminarImagen(String id) throws MiException {
         try {
@@ -85,11 +84,10 @@ public class ImagenServicio {
                 }
             }
             imagenRepositorio.deleteById(id);
-        }catch (Exception e){
-            throw new MiException ("No se pudo eliminar la imagen");
+        } catch (Exception e) {
+            throw new MiException("No se pudo eliminar la imagen");
         }
 
     }
 
-    
 }

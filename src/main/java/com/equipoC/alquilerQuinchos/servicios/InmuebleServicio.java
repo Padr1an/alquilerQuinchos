@@ -33,21 +33,18 @@ public class InmuebleServicio {
 
     @Transactional
     public void crearInmueble(String nombre, String ubicacion, Boolean cochera, Boolean parrilla,
-                              Boolean pileta, Double precioBase, Double precioTotal, List<MultipartFile> imgProp,
-                              String idPropietario) throws MiException {
-
+            Boolean pileta, Double precioBase, Double precioTotal, List<MultipartFile> imgProp,
+            String idPropietario) throws MiException {
 
         //validarInmueble(nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioTotal);
-
-
         validarInmueble(nombre, ubicacion, precioBase, imgProp);
-        if (parrilla==null){
+        if (parrilla == null) {
             parrilla = false;
         }
-        if (cochera==null){
+        if (cochera == null) {
             cochera = false;
         }
-        if (pileta==null){
+        if (pileta == null) {
             pileta = false;
         }
 
@@ -63,22 +60,20 @@ public class InmuebleServicio {
 
         inmueble.setCalendarioInmueble(calendario);
 
-
         inmueble.setPrecioTotal(precioTotal);
         Usuario usuario = usuarioRepositorio.buscarPorId(idPropietario);
         inmueble.setUserProp(usuario);
         List<Imagen> imagenes = new ArrayList<>();
 
         for (MultipartFile archivoImagen : imgProp) {
-            Imagen imagen = imagenServicio.guardar(archivoImagen) ;
+            Imagen imagen = imagenServicio.guardar(archivoImagen);
             imagenes.add(imagen);
         }
         inmueble.setImagenInmueble(imagenes);
 
         inmuebleRepositorio.save(inmueble);
 
-        for (Imagen img: imagenes
-        ) {
+        for (Imagen img : imagenes) {
             img.setInmueble(inmueble);
         }
 
@@ -86,13 +81,9 @@ public class InmuebleServicio {
 
     @Transactional
     public Inmueble modificarInmueble(Long id, String nombre, String ubicacion, Boolean cochera, Boolean parrilla, Boolean pileta,
-
             Double precioBase, Double precioTotal, List<MultipartFile> archivosImagenes) throws MiException {
 
-            
-
         validarInmueble(nombre, ubicacion, precioBase, archivosImagenes);
-
 
         Inmueble inmueble = inmuebleRepositorio.findById(id).orElse(null);
 
@@ -118,10 +109,12 @@ public class InmuebleServicio {
 
         /*double precioTotalCalculado = precioBase + (cochera != null ? cochera : 0) + (parrilla != null ? parrilla : 0) + (pileta != null ? pileta : 0);
         inmueble.setPrecioTotal(precioTotalCalculado);*/
-
-
         List<Imagen> nuevasImagenes = new ArrayList<>();
-
+        
+        if (archivosImagenes.isEmpty()) {
+            return inmuebleRepositorio.save(inmueble);
+        } else {
+        }
         for (MultipartFile archivoImagen : archivosImagenes) {
             Imagen imagen = imagenServicio.guardar(archivoImagen);
             nuevasImagenes.add(imagen);
@@ -162,14 +155,47 @@ public class InmuebleServicio {
     public List<Inmueble> listarTodosLosInmuebles() {
         return inmuebleRepositorio.findAll();
     }
-    @Transactional
-    public List<Inmueble> listarInmueblesPorBusquedaPersonalizada(String search) {
 
-        if(search != null){
-            return inmuebleRepositorio.findAll(search);
+    @Transactional
+    public List<Inmueble> listarInmueblesPorBusquedaPersonalizada(String search, String pileta, String parrilla, String cochera) {
+
+        System.out.println(search);
+
+        if (search != null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllTodos(search);
+        } else if (search != null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla")) {
+            return inmuebleRepositorio.findAllPileParri(search);
+        } else if (search != null && pileta.equalsIgnoreCase("siPileta") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllPileCoche(search);
+        } else if (search != null && parrilla.equalsIgnoreCase("siParrilla") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllParriCoche(search);
+        } else if (search != null && parrilla.equalsIgnoreCase("siParrilla")) {
+            return inmuebleRepositorio.findAllParri(search);
+        } else if (search != null && pileta.equalsIgnoreCase("siPileta")) {
+            return inmuebleRepositorio.findAllPile(search);
+        } else if (search != null && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllCoche(search);
+        } else if (search != null) {
+            return inmuebleRepositorio.findAllSearch(search);
+        } else if (search == null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllTodos(search);
+        } else if (search == null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla")) {
+            return inmuebleRepositorio.findAllPileParriNull(search);
+        } else if (search == null && pileta.equalsIgnoreCase("siPileta") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllPileCocheNull(search);
+        } else if (search == null && parrilla.equalsIgnoreCase("siParrilla") && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllParriCocheNull(search);
+        } else if (search == null && parrilla.equalsIgnoreCase("siParrilla")) {
+            return inmuebleRepositorio.findAllParriNull(search);
+        } else if (search == null && pileta.equalsIgnoreCase("siPileta")) {
+            return inmuebleRepositorio.findAllPileNull(search);
+        } else if (search == null && cochera.equalsIgnoreCase("siCochera")) {
+            return inmuebleRepositorio.findAllCocheNull(search);
         }
-        return inmuebleRepositorio.findAll();
-    }
+            return inmuebleRepositorio.findAll();
+        }
+
+    
 
     public boolean validarInmueble(String nombre, String ubicacion, Double precioBase, List<MultipartFile> archivos) throws MiException {
 
@@ -184,7 +210,7 @@ public class InmuebleServicio {
         if (precioBase == null || precioBase < 0) {
             throw new MiException("El precio base no es válido.");
         }
-        if (archivos.isEmpty() == true ) {
+        if (archivos.isEmpty() == true) {
             throw new MiException("Debe adjuntar al menos una imagen del inmueble.");
         }
         return true;

@@ -36,16 +36,29 @@ public class PortalControlador {
     private InmuebleServicio inmuebleServicio;
 
     @GetMapping("/")
-    public String index(ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "cochera", required = false) String cochera) {
+    public String index(ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "cochera", required = false) String cochera) {
         //String busqueda=search.concat(" "+parrilla).concat(pileta).concat(cochera);
+        String falso = "falso";
 
-        List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search);
+        if (parrilla == null) {
+            parrilla = falso;
+        }
+        if (pileta == null) {
+            pileta = falso;
+        }
+        if (cochera == null) {
+            cochera = falso;
+        }
+
+        List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search, pileta, parrilla, cochera);
         modelo.addAttribute("x", listaInmuebles);
+//        modelo.addAttribute("search", search);
+//        modelo.addAttribute("pileta", pileta);
+//        modelo.addAttribute("parrilla", parrilla);
+//        modelo.addAttribute("cochera", cochera);
 
         return "index.html";
     }
-
-
 
     @GetMapping("/nosotros")
     public String nosotros() {
@@ -53,13 +66,33 @@ public class PortalControlador {
     }
 
     @GetMapping("/inicio")
-    public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search) {
+    public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "cochera", required = false) String cochera) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        String falso = "falso";
+
+        if (parrilla == null) {
+            parrilla = falso;
+        }
+        if (pileta == null) {
+            pileta = falso;
+        }
+        if (cochera == null) {
+            cochera = falso;
+        }
+
+        System.out.println(parrilla);
+        System.out.println(pileta);
+        System.out.println(cochera);
 
         if (usuario != null) {
             modelo.addAttribute("usuario", usuario);
-            List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search);
+            List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search, pileta, parrilla, cochera);
             modelo.addAttribute("x", listaInmuebles);
+//            modelo.addAttribute("search", search);
+//            modelo.addAttribute("pileta", pileta);
+//            modelo.addAttribute("parrilla", parrilla);
+//            modelo.addAttribute("cochera", cochera);
         }
 
         List<Reserva> misReservas = reservaServicio.listarReservasUsuario(usuario);
@@ -126,9 +159,8 @@ public class PortalControlador {
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/perfil")
 
-    public String actualizar(@RequestParam String id,@RequestParam String username,@RequestParam String password, @RequestParam String nombre, @RequestParam String email,
-                             @RequestParam String telefono, @RequestParam String rol, @RequestParam(required = false) MultipartFile archivo, HttpSession session, ModelMap modelo) {
-
+    public String actualizar(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nombre, @RequestParam String email,
+            @RequestParam String telefono, @RequestParam String rol, @RequestParam(required = false) MultipartFile archivo, HttpSession session, ModelMap modelo) {
 
         try {
 
@@ -162,7 +194,6 @@ public class PortalControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
 
-
     @GetMapping("/mis_reservas")
     public String misReservas(ModelMap model, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
@@ -174,4 +205,3 @@ public class PortalControlador {
     }
 
 }
-
