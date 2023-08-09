@@ -102,6 +102,16 @@
 #form label {
     font-size: 20px;
 }
+.fechas_ocupadas {
+    background-color: rgba(244, 67, 54, 0.45) !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+.fechas_disponibles {
+    background-color: rgba(50, 250, 54, 1) ;
+    background-image :none ;
+    color: rgba(0,0,0,0);
+}
 
 input[type="radio"] {
     display: none;

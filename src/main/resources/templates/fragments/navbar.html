@@ -56,7 +56,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:if="${session.usuariosession != null}" th:text="'Hola, ' + ${session.usuariosession.nombre}"></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/perfil/{id}(id=${session.usuariosession.id})}">Modificar Perfil</a></li>
+                            <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/perfil}">Modificar Perfil</a></li>
                             <!--<li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/perfil}">Panel</a></li>-->
                             <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/logout}">Cerrar Sesión</a></li>
                         </ul>

@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 @Controller
@@ -41,40 +42,22 @@ public class ReservaControlador {
         modelo.addAttribute("cliente", logueado);
         modelo.addAttribute("idInmueble", idInmueble);
 
-
         ArrayList <Date> alta = new ArrayList<>();
+        for (Reserva lista : inmueble.getReserva()
+             ) {
+            alta.add(lista.getFechaAlta());
+        }
+
         ArrayList <Date> baja = new ArrayList<>();
-        for ( Reserva lista : inmueble.getReserva()) {
-            Date entrada = new Date();
-
-            SimpleDateFormat formato_DMY = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat formato_YMD = new SimpleDateFormat("yyyy/MM/dd");
-            String dmy1 = null;
-
-            System.out.println(lista.getFechaAlta());
-            dmy1= formato_YMD.format(lista.getFechaAlta());
-            entrada = formato_DMY.parse(dmy1);
-
-            alta.add(entrada);
+        for (Reserva lista : inmueble.getReserva()
+        ) {
+            baja.add(lista.getFechaBaja());
         }
-        for ( Reserva lista : inmueble.getReserva()) {
-            Date salida = new Date();
-            SimpleDateFormat formato_DMY = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat formato_YMD = new SimpleDateFormat("yyyy/MM/dd");
-
-            String dmy2 = null;
-            System.out.println(lista.getFechaAlta());
-            dmy2= formato_YMD.format(lista.getFechaBaja());
-            //System.out.println(dmy1);
-            salida = formato_DMY.parse(dmy2);
-            //System.out.println(entrada);
-            dmy2 = formato_YMD.format(lista.getFechaBaja());
-            salida = formato_DMY.parse(dmy2);
-
-            baja.add(salida);
+        for (Date imp : alta) {
+            System.out.println(imp);
         }
-
-        modelo.addAttribute("inmu" , alta);
+        modelo.addAttribute("bajas" , baja);
+        modelo.addAttribute("altas" , alta);
         return "crear_reserva.html";
     }
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
@@ -83,22 +66,25 @@ public class ReservaControlador {
                           @RequestParam String fechaBaja, @RequestParam String idCliente, HttpSession session, ModelMap modelo) throws MiException, ParseException {
 
         Usuario clienteSession = (Usuario) session.getAttribute("clientesession");
-
-        Date entrada;
+        System.out.println(fechaAlta);
+        Date entrada = new Date();
         Date salida = new Date();
-        SimpleDateFormat formato_YMD = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat formato_DMY = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato_YMD = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato_DMY = new SimpleDateFormat("dd-MM-yyyy");
 
-        entrada = formato_DMY.parse(fechaAlta);
-        fechaAlta = formato_YMD.format(entrada);
-        Date in = formato_YMD.parse(fechaAlta);
+        try {
+            entrada = formato_YMD.parse(fechaAlta);
+            salida = formato_YMD.parse(fechaBaja);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        salida = formato_DMY.parse(fechaBaja);
-        fechaBaja = formato_YMD.format(salida);
-        Date out = formato_YMD.parse(fechaBaja);
+        salida = formato_YMD.parse(fechaBaja);
 
+        System.out.println(entrada);
+        System.out.println(salida);
         try{
-            reservaServicio.crearReserva(in,out, idInmueble, idCliente);
+            reservaServicio.crearReserva(entrada,salida, idInmueble, idCliente);
             modelo.put("exito", "La reserva fue cargada correctamente");
             return "redirect:../../inicio";
         } catch (MiException e) {
@@ -134,6 +120,6 @@ public class ReservaControlador {
     @PostMapping("/eliminar/{id}")
     public String eliminarReserva(@PathVariable Long id) throws MiException {
         reservaServicio.eliminarReserva(id);
-        return "redirect:/inicio";
+        return "redirect:../../mis_reservas";
     }
 }

@@ -66,7 +66,9 @@ public class PortalControlador {
     }
 
     @GetMapping("/inicio")
+
     public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "cochera", required = false) String cochera) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         String falso = "falso";
@@ -121,11 +123,14 @@ public class PortalControlador {
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String username, @RequestParam String password, @RequestParam String nombre, @RequestParam String email, @RequestParam String telefono, @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
+    public String registro(@RequestParam String username, @RequestParam String password,
+                           @RequestParam String password2, @RequestParam String nombre,
+                           @RequestParam String email, @RequestParam String telefono,
+                           @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
 
         try {
 
-            usuarioServicio.crearUsuario(username, password, nombre, email, telefono, rol, archivo);
+            usuarioServicio.crearUsuario(username, password, password2, nombre, email, telefono, rol, archivo);
 
             modelo.put("exito", "Usuario registrado correctamente!");
 
@@ -153,17 +158,18 @@ public class PortalControlador {
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.addAttribute("usuario", usuario);
+        System.out.println(usuario.getImagen().getId());
         return "usuario_modificar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/perfil")
 
+
     public String actualizar(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nombre, @RequestParam String email,
             @RequestParam String telefono, @RequestParam String rol, @RequestParam(required = false) MultipartFile archivo, HttpSession session, ModelMap modelo) {
 
         try {
-
             Usuario usuarioSession = (Usuario) session.getAttribute("usuariosession");
             usuarioServicio.modificarUsuario(id, username, password, nombre, email, telefono, rol, archivo);
 
@@ -173,10 +179,7 @@ public class PortalControlador {
             return "redirect:/";
 
         } catch (MiException ex) {
-
             modelo.put("error", ex.getMessage());
-            modelo.put("nombre", username);
-
             return "redirect:../";
         }
     }
@@ -184,10 +187,10 @@ public class PortalControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 
     @PostMapping("/perfil/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable String id) throws MiException {
+    public String eliminarUsuario(@PathVariable String id, ModelMap modelo) throws MiException {
 
         usuarioServicio.borrarUsuarioPorId(id);
-
+        modelo.put("exito", "Usuario eliminado exitosamente");
         return "redirect:/inicio";
 
     }

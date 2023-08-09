@@ -38,9 +38,9 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void crearUsuario(String username, String password, String nombre, String email, String telefono, String rol, MultipartFile archivo) throws MiException {
+    public void crearUsuario(String username, String password, String password2, String nombre, String email, String telefono, String rol, MultipartFile archivo) throws MiException {
 
-        validarCrearUsuario(username, password, nombre, email, telefono, rol);
+        validarCrearUsuario(username, password, password2, nombre, email, telefono, rol);
         System.out.println("hola ggiitt");
         Usuario usuario = new Usuario();
 
@@ -117,7 +117,7 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.getOne(id);
     }
 
-    private void validarCrearUsuario(String username, String password, String nombre, String email, String telefono, String rol) throws MiException {
+    private void validarCrearUsuario(String username, String password, String password2, String nombre, String email, String telefono, String rol) throws MiException {
         if (username.isEmpty() || username == null) {
             throw new MiException("El nombre de usuario no puede ser nulo o estar vacío");
         }
@@ -143,6 +143,10 @@ public class UsuarioServicio implements UserDetailsService {
 
         if (rol.isEmpty() || rol == null) {
             throw new MiException("El rol no puede estar vacío");
+        }
+        
+        if (!password.equals(password2)) {
+            throw new MiException("Las contraseñas ingresadas deben ser iguales");
         }
 
     }
