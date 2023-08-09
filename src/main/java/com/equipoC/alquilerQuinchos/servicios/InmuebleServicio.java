@@ -5,16 +5,15 @@ import com.equipoC.alquilerQuinchos.entidades.Imagen;
 import com.equipoC.alquilerQuinchos.entidades.Inmueble;
 import com.equipoC.alquilerQuinchos.entidades.Usuario;
 import com.equipoC.alquilerQuinchos.excepciones.MiException;
-import com.equipoC.alquilerQuinchos.repositorios.CalendarioRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.InmuebleRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.UsuarioRepositorio;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -41,13 +40,13 @@ public class InmuebleServicio {
 
 
         validarInmueble(nombre, ubicacion, precioBase, imgProp);
-        if (parrilla==null){
+        if (parrilla == null) {
             parrilla = false;
         }
-        if (cochera==null){
+        if (cochera == null) {
             cochera = false;
         }
-        if (pileta==null){
+        if (pileta == null) {
             pileta = false;
         }
 
@@ -70,29 +69,25 @@ public class InmuebleServicio {
         List<Imagen> imagenes = new ArrayList<>();
 
         for (MultipartFile archivoImagen : imgProp) {
-            Imagen imagen = imagenServicio.guardar(archivoImagen) ;
+            Imagen imagen = imagenServicio.guardar(archivoImagen);
             imagenes.add(imagen);
         }
         inmueble.setImagenInmueble(imagenes);
 
         inmuebleRepositorio.save(inmueble);
 
-        for (Imagen img: imagenes
+        for (Imagen img : imagenes
         ) {
             img.setInmueble(inmueble);
         }
-
     }
 
     @Transactional
-    public Inmueble modificarInmueble(Long id, String nombre, String ubicacion, Boolean cochera, Boolean parrilla, Boolean pileta,
-
-            Double precioBase, Double precioTotal, List<MultipartFile> archivosImagenes) throws MiException {
-
-            
+    public Inmueble modificarInmueble(Long id, String nombre, String ubicacion, Boolean cochera, Boolean parrilla,
+                                      Boolean pileta, Double precioBase, Double precioTotal,
+                                      List<MultipartFile> archivosImagenes) throws MiException {
 
         validarInmueble(nombre, ubicacion, precioBase, archivosImagenes);
-
 
         Inmueble inmueble = inmuebleRepositorio.findById(id).orElse(null);
 
@@ -115,21 +110,23 @@ public class InmuebleServicio {
         inmueble.setPileta(pileta);
         inmueble.setPrecioBase(precioBase);
 
-
         /*double precioTotalCalculado = precioBase + (cochera != null ? cochera : 0) + (parrilla != null ? parrilla : 0) + (pileta != null ? pileta : 0);
         inmueble.setPrecioTotal(precioTotalCalculado);*/
 
-
         List<Imagen> nuevasImagenes = new ArrayList<>();
 
-        for (MultipartFile archivoImagen : archivosImagenes) {
-            Imagen imagen = imagenServicio.guardar(archivoImagen);
-            nuevasImagenes.add(imagen);
-            imagen.setInmueble(inmueble);
+        if (archivosImagenes.isEmpty()) {
+            return inmuebleRepositorio.save(inmueble);
+        }else {
+            for (MultipartFile archivoImagen : archivosImagenes) {
+                Imagen imagen = imagenServicio.guardar(archivoImagen);
+                nuevasImagenes.add(imagen);
+                imagen.setInmueble(inmueble);
+            }
+            inmueble.getImagenInmueble().addAll(nuevasImagenes);
+            return inmuebleRepositorio.save(inmueble);
         }
-        inmueble.getImagenInmueble().addAll(nuevasImagenes);
 
-        return inmuebleRepositorio.save(inmueble);
     }
 
     @Transactional
@@ -162,10 +159,11 @@ public class InmuebleServicio {
     public List<Inmueble> listarTodosLosInmuebles() {
         return inmuebleRepositorio.findAll();
     }
+
     @Transactional
     public List<Inmueble> listarInmueblesPorBusquedaPersonalizada(String search) {
 
-        if(search != null){
+        if (search != null) {
             return inmuebleRepositorio.findAll(search);
         }
         return inmuebleRepositorio.findAll();
@@ -184,7 +182,7 @@ public class InmuebleServicio {
         if (precioBase == null || precioBase < 0) {
             throw new MiException("El precio base no es válido.");
         }
-        if (archivos.isEmpty() == true ) {
+        if (archivos.isEmpty() == true) {
             throw new MiException("Debe adjuntar al menos una imagen del inmueble.");
         }
         return true;
