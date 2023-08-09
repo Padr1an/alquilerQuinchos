@@ -26,12 +26,6 @@
                     <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}">
                     <tr>
                         <td><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
-                        <td>
-                            <form th:action="@{/imagen/eliminar/{id}(id=usuario.imagen.id)}" method="get"
-                                  style="display: inline; max-width: 10px">
-                                <button type="submit" class="boton">Eliminar <i class="fa fa-trash"></i></button>
-                            </form>
-                        </td>
                     </tr>
 
                     <br>
