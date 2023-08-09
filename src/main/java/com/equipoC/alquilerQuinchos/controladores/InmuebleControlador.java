@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -97,8 +99,8 @@ public class InmuebleControlador {
         List<Inmueble> misInmuebles = inmuebleServicio.listarInmueblesUsuario(usuarioLogueado.getId());
         model.addAttribute("misInmuebles", misInmuebles);
         model.addAttribute("cliente", usuarioLogueado);
-        //List<Reserva> reservas = reservaServicio.listarReservas()
-        //model.addAttribute("reservas", reservas);
+        List<Reserva> reservas = reservaServicio.listarReservas();
+        model.addAttribute("reservas", reservas);
 
         return "mis_inmuebles.html";
     }
@@ -118,17 +120,25 @@ public class InmuebleControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
 
-    public String actualizarInmueble(@PathVariable Long id, @RequestParam(required = false) String nombre, @RequestParam(required = false) String ubicacion,
-            @RequestParam(required = false) Boolean cochera, @RequestParam(required = false) Boolean parrilla, @RequestParam(required = false) Boolean pileta,
-            @RequestParam(required = false) Double precioBase, @RequestParam(required = false) Double precioTotal, @RequestParam(value = "archivosImagenes", required = false) List<MultipartFile> archivosImagenes, ModelMap modelo) {
+    public String actualizarInmueble(@PathVariable Long id, @RequestParam(required = false) String nombre,
+                                     @RequestParam(required = false) String ubicacion,
+                                     @RequestParam(required = false) Boolean cochera,
+                                     @RequestParam(required = false) Boolean parrilla,
+                                     @RequestParam(required = false) Boolean pileta,
+                                     @RequestParam(required = false) Double precioBase,
+                                     @RequestParam(required = false) Double precioTotal,
+                                     @RequestParam(value = "archivosImagenes", required = false) List<MultipartFile> archivosImagenes,
+                                     ModelMap modelo, HttpServletRequest request) throws MiException {
 
         try {
             Inmueble inmueble = inmuebleServicio.modificarInmueble(id, nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioTotal, archivosImagenes);
             modelo.addAttribute("inmueble", inmueble);
-            return "redirect:../mis_inmuebles";
+            modelo.put("exito", "Datos modificados con éxito");
+
         } catch (MiException ex) {
             return "redirect:../mis_inmuebles";
         }
+        return "redirect:/inicio";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")

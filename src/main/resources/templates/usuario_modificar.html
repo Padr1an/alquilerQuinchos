@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/formularios.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-        
+
     </head>
     <body>
 
@@ -26,14 +26,8 @@
                     <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}">
                     <tr>
                         <td><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
-                        <td>
-                            <form th:action="@{/imagen/eliminar/${usuario.imagen.id}}" method="get"
-                                  style="display: inline; max-width: 10px">
-                                <button type="submit" class="boton">Eliminar <i class="fa fa-trash"></i></button>
-                            </form>
-                        </td>
                     </tr>
-                    
+
                     <br>
                     <input type="file" class="form-control" name="archivo">
                     <input type="text" class="form-control" name="username" th:value="${usuario.username}" />

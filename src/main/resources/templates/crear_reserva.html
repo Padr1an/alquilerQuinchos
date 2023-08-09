@@ -27,7 +27,7 @@
 
 <body>
 <nav th:replace="/fragments/navbar :: nav"></nav>
- <div th:insert="/fragments/msg :: msg"></div>
+<div th:insert="/fragments/msg :: msg"></div>
 
 <br><br><br>
 <div class="card-container">
@@ -72,7 +72,9 @@
         </form>
     </div>
 </div>
+<footer th:replace="/fragments/footer :: footer"></footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
     $(function () {
@@ -86,36 +88,35 @@
 
         console.log(listaAlta.value)
         // Fechas a deshabilitar
-        var fechasDeshabilitadas = listaAlta.value;
+        var fechasDeshabilitadas1 = listaAlta.value;
+        var fechasDeshabilitadas2 = listaBaja.value;
 
         $('#datepicker1').datepicker({
             language: 'es', // Establecer idioma en español
             format: 'yyyy-mm-dd',
             orientation: "auto left",
             startDate: new Date(), // Evitar seleccionar fechas anteriores a hoy
-            datesDisabled: fechasDeshabilitadas, // Deshabilitar fechas específicas
+            datesDisabled: altasOcupadas, // Deshabilitar fechas específicas
             beforeShowDay: function (date) {
-                min2Fecha = moment(date).format('YYYY-MM-DD');
-                if (altasOcupadas.indexOf(dateString) !== -1) {
+                var dateString1 = moment(date).format('YYYY-MM-DD');
+                if (altasOcupadas.indexOf(dateString1) !== -1) {
                     // Establecer clase para fechas ocupadas
                     return [false, 'fechas-ocupadas'];
                 } else {
                     // Establecer clase para fechas disponibles
                     return [true, 'fechas-disponibles'];
                 }
-            },
-
-
+            }
+            }).on('changeDate', function (e) {
+            min2Fecha = moment(e.date).format('YYYY-MM-DD');
+            $('#datepicker2').datepicker('setStartDate', min2Fecha);
         });
-        var fechaMin = new Date();
-        fechaMin.setTime(Date.parse(min2Fecha));
 
         $('#datepicker2').datepicker({
             language: 'es', // Establecer idioma en español
             format: 'yyyy-mm-dd',
-            startDate: new Date(), // Evitar seleccionar fechas anteriores a hoy
-            minDate: fechaMin,
-            datesDisabled: fechasDeshabilitadas, // Deshabilitar fechas específicas
+            startDate: new Date(),// Evitar seleccionar fechas anteriores a hoy
+            datesDisabled: bajasOcupadas, // Deshabilitar fechas específicas
             beforeShowDay: function (date) {
                 var dateString = moment(date).format('YYYY-MM-DD');
                 if (bajasOcupadas.indexOf(dateString) !== -1) {
@@ -126,17 +127,11 @@
                     return [true, 'fechas-disponibles'];
                 }
             },
-
         });
+
     });
 </script>
-<style>
-    .fechas_ocupadas {
-        background-color: rgba(244, 67, 54, 0.45) !important;
-        background-image :none !important;
-        color: #ffffff !important;
-    }
-</style>
+
 </body>
 
 </html>

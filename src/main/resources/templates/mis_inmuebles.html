@@ -38,9 +38,9 @@
                             <td><a th:href="@{'/inmueble/detalles/' + ${inmueble.id}}"><img  width="200px" height="200px" th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
                             <td>
                                 <table>
-                                    <!--<tr th:each="reservas : ${reservas}">
+                                    <tr th:each="reservas : ${reservas}">
                                       <td th:text="${#dates.format(reservas.fechaBaja, 'dd-MM-yyyy')}"></td>
-                                    </tr>-->
+                                    </tr>
                                 </table>
                             </td>
                             <td>

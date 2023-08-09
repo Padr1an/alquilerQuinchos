@@ -120,6 +120,6 @@ public class ReservaControlador {
     @PostMapping("/eliminar/{id}")
     public String eliminarReserva(@PathVariable Long id) throws MiException {
         reservaServicio.eliminarReserva(id);
-        return "redirect:/inicio";
+        return "redirect:../../mis_reservas";
     }
 }

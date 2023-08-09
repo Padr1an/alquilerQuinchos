@@ -14,7 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/imagen")
@@ -61,16 +66,18 @@ public class ImagenControlador {
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
 
     }
-    @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable("id") String id) throws MiException {
+    @PostMapping("/eliminar/{id}")
+    public RedirectView eliminar(@PathVariable("id") String id, HttpServletRequest request, ModelMap modelo)
+            throws MiException {
         try {
             imagenServicio.eliminarImagen(id);
         }catch (MiException e){
-            new MiException("no se pudo eliminar la imagen");
+            modelo.put("error", e.getMessage());
         }
+        String referer = request.getHeader("referer");
 
-
-        return "../";
-
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(referer); // Redirige a la página anterior
+        return redirectView;
     }
 }
