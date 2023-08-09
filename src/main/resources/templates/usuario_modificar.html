@@ -37,7 +37,7 @@
                     <button type="submit" class="boton">Actualizar</button>
                 </form>
                 <br>
-                <form th:action="@{/perfil/eliminar}" method="post">
+                <form th:action="@{/perfil/eliminar/usuarios/{id}}" method="post">
                     <button th:if="${session.usuariosession.rol != usuario.rol}" type="submit" class="boton">Eliminar Cuenta</button>
                 </form>
             </div>
