@@ -39,7 +39,7 @@
         <td th:text="${usuario.nombre}"></td>
         <td>
           <form th:action="@{/eliminar_usuario/{id}(id=${usuario.id})}" method="post" style="display: inline;">
-            <button type="submit" class="boton">Eliminar</button>
+            <button th:if="${session.usuariosession.rol != usuario.rol}" type="submit" class="boton">Eliminar</button>
           </form>
         </td>
       </tr>
