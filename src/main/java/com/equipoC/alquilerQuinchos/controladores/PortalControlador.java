@@ -88,11 +88,11 @@ public class PortalControlador {
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String username, @RequestParam String password, @RequestParam String nombre, @RequestParam String email, @RequestParam String telefono, @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
+    public String registro(@RequestParam String username, @RequestParam String password, @RequestParam String password2, @RequestParam String nombre, @RequestParam String email, @RequestParam String telefono, @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
 
         try {
 
-            usuarioServicio.crearUsuario(username, password, nombre, email, telefono, rol, archivo);
+            usuarioServicio.crearUsuario(username, password, password2, nombre, email, telefono, rol, archivo);
 
             modelo.put("exito", "Usuario registrado correctamente!");
 

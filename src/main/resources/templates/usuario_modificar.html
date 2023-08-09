@@ -24,15 +24,16 @@
                     <input type="text" class="form-control" name="email" th:value="${usuario.email}">
                     <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}">
                     <tr>
-                        <td><img th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
+                        <td><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
                         <td>
                             <form th:action="@{/imagen/eliminar/{id}(id=usuario.imagen.id)}" method="get"
                                   style="display: inline; max-width: 10px">
-                                <button type="submit" class="btn btn-danger">Eliminar <i class="fa fa-trash"></i></button>
+                                <button type="submit" class="boton">Eliminar <i class="fa fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
-
+                    
+                    <br>
                     <input type="file" class="form-control" name="archivo">
                     <input type="text" class="form-control" name="username" th:value="${usuario.username}" />
                     <input type="password" class="form-control" name="password" placeholder="PASSWORD">

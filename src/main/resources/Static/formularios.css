@@ -21,6 +21,12 @@
     margin-bottom: 20px;
     color: #4e247f
 }
+.size-image{
+    width: 250px;
+    height: 250px;
+    margin-left: 15%;
+    margin-bottom: 10px;
+}
 
 .form-control {
     margin-bottom: 15px;
