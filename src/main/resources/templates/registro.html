@@ -27,7 +27,7 @@
             <div class="card-container">
 
                 <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
-                    <h5>Registrate !</h5>
+                    <h5>¡ Registrate !</h5>
                     <label for="nombre">Nombre Completo</label>
                     <div class="form-group">
                         <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" th:value="${nombre}" required>
@@ -62,15 +62,12 @@
                     <div class="form-group" >
                         <input type="password" class="form-control form-control-sm" id="password" name="password" th:value="${password}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$"
                                title="La contraseña debe contener al menos 6 carácteres, una letra mayúscula, una letra minúscula y un número">
-                        <<<<<<< HEAD
-                        =======
                     </div>
 
                     <label for="password">Repita la contraseña</label>
                     <div class="form-group" >
                         <input type="password" class="form-control form-control-sm" id="password2" name="password2" th:value="${password2}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$"
                                title="Las contraseñas ingresadas deben ser iguales">
-                        >>>>>>> 4d3426d2e5b362a3ad766ea5a67bb17a249cd65d
                     </div>
 
                     <button type="submit" class="boton">Regístrarse</button>
