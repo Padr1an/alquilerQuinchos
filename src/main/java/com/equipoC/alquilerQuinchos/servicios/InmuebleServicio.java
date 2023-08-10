@@ -72,7 +72,6 @@ public class InmuebleServicio {
 
         inmuebleRepositorio.save(inmueble);
 
-
         for (Imagen img : imagenes) {
             img.setInmueble(inmueble);
         }
@@ -108,12 +107,11 @@ public class InmuebleServicio {
 
         /*double precioTotalCalculado = precioBase + (cochera != null ? cochera : 0) + (parrilla != null ? parrilla : 0) + (pileta != null ? pileta : 0);
         inmueble.setPrecioTotal(precioTotalCalculado);*/
-
         List<Imagen> nuevasImagenes = new ArrayList<>();
 
         if (archivosImagenes.isEmpty()) {
             return inmuebleRepositorio.save(inmueble);
-        }else {
+        } else {
             for (MultipartFile archivoImagen : archivosImagenes) {
                 Imagen imagen = imagenServicio.guardar(archivoImagen);
                 nuevasImagenes.add(imagen);
@@ -156,9 +154,14 @@ public class InmuebleServicio {
         return inmuebleRepositorio.findAll();
     }
 
-
     @Transactional
     public List<Inmueble> listarInmueblesPorBusquedaPersonalizada(String search, String pileta, String parrilla, String cochera) {
+
+        System.out.println(search);
+
+        if (validarParametros(search, pileta, parrilla, cochera) == 4 || validarParametros(search, pileta, parrilla, cochera) == 3 ) {
+            search = null;
+        }
 
         System.out.println(search);
 
@@ -176,10 +179,13 @@ public class InmuebleServicio {
             return inmuebleRepositorio.findAllPile(search);
         } else if (search != null && cochera.equalsIgnoreCase("siCochera")) {
             return inmuebleRepositorio.findAllCoche(search);
-        } else if (search != null) {
+        } else if (search != null && pileta.equalsIgnoreCase("falso") && parrilla.equalsIgnoreCase("falso") && cochera.equalsIgnoreCase("falso")) {
             return inmuebleRepositorio.findAllSearch(search);
+        }
+        if (search == null && pileta.equalsIgnoreCase("falso") && parrilla.equalsIgnoreCase("falso") && cochera.equalsIgnoreCase("falso")) {
+            return inmuebleRepositorio.findAll();
         } else if (search == null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla") && cochera.equalsIgnoreCase("siCochera")) {
-            return inmuebleRepositorio.findAllTodos(search);
+            return inmuebleRepositorio.findAllTodosNull(search);
         } else if (search == null && pileta.equalsIgnoreCase("siPileta") && parrilla.equalsIgnoreCase("siParrilla")) {
             return inmuebleRepositorio.findAllPileParriNull(search);
         } else if (search == null && pileta.equalsIgnoreCase("siPileta") && cochera.equalsIgnoreCase("siCochera")) {
@@ -193,10 +199,8 @@ public class InmuebleServicio {
         } else if (search == null && cochera.equalsIgnoreCase("siCochera")) {
             return inmuebleRepositorio.findAllCocheNull(search);
         }
-            return inmuebleRepositorio.findAll();
-        }
-
-    
+        return inmuebleRepositorio.findAll();
+    }
 
     public boolean validarInmueble(String nombre, String ubicacion, Double precioBase, List<MultipartFile> archivos) throws MiException {
 
@@ -215,6 +219,28 @@ public class InmuebleServicio {
             throw new MiException("Debe adjuntar al menos una imagen del inmueble.");
         }
         return true;
+    }
+
+    public int validarParametros(String search, String pileta, String parrilla, String cochera) {
+
+        int count = 0;
+
+        if (pileta.length() > 0) {
+            count += 1;
+        }
+        if (parrilla.length() > 0) {
+            count += 1;
+        }
+        if (cochera.length() > 0) {
+            count += 1;
+        }
+        if (search.equalsIgnoreCase("aarmppfcjulio2023")) {
+            count += 1;
+        } else if (search.length()>0){
+            count=5;
+        }
+
+        return count;
     }
 
 }

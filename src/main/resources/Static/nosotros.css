@@ -1,10 +1,6 @@
 .container {
     position: absolute;
-<<<<<<< HEAD
     top: 90%;
-=======
-    top: 80%;
->>>>>>> d6f9cf05e1de37a57aef47c649895f5c2509f3af
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;

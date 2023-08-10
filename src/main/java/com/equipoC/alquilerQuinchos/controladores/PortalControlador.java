@@ -39,6 +39,12 @@ public class PortalControlador {
     public String index(ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "cochera", required = false) String cochera) {
         //String busqueda=search.concat(" "+parrilla).concat(pileta).concat(cochera);
         String falso = "falso";
+        String passwordIntern = "aarmppfcjulio2023";
+        System.out.println(search);
+        System.out.println(parrilla);
+        System.out.println(pileta);
+        System.out.println(cochera);
+        System.out.println("=============");
 
         if (parrilla == null) {
             parrilla = falso;
@@ -49,13 +55,17 @@ public class PortalControlador {
         if (cochera == null) {
             cochera = falso;
         }
+        if (search == null) {
+            search = passwordIntern;
+        }
+
+        System.out.println(search);
+        System.out.println(parrilla);
+        System.out.println(pileta);
+        System.out.println(cochera);
 
         List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search, pileta, parrilla, cochera);
         modelo.addAttribute("x", listaInmuebles);
-//        modelo.addAttribute("search", search);
-//        modelo.addAttribute("pileta", pileta);
-//        modelo.addAttribute("parrilla", parrilla);
-//        modelo.addAttribute("cochera", cochera);
 
         return "index.html";
     }
@@ -68,12 +78,13 @@ public class PortalControlador {
     @GetMapping("/inicio")
 
     public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search,
-                         @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla,
-                         @RequestParam(value = "cochera", required = false) String cochera) {
+            @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla,
+            @RequestParam(value = "cochera", required = false) String cochera) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         String falso = "falso";
+        String passwordIntern = "aarmppfcjulio2023";
 
         if (parrilla == null) {
             parrilla = falso;
@@ -84,7 +95,13 @@ public class PortalControlador {
         if (cochera == null) {
             cochera = falso;
         }
+        if (search == null) {
+            System.out.println("SI ESTA VACIO");
+            search = passwordIntern;
+        }
 
+        System.out.println("===========");
+        System.out.println(search);
         System.out.println(parrilla);
         System.out.println(pileta);
         System.out.println(cochera);
@@ -93,10 +110,6 @@ public class PortalControlador {
             modelo.addAttribute("usuario", usuario);
             List<Inmueble> listaInmuebles = inmuebleServicio.listarInmueblesPorBusquedaPersonalizada(search, pileta, parrilla, cochera);
             modelo.addAttribute("x", listaInmuebles);
-//            modelo.addAttribute("search", search);
-//            modelo.addAttribute("pileta", pileta);
-//            modelo.addAttribute("parrilla", parrilla);
-//            modelo.addAttribute("cochera", cochera);
         }
 
         List<Reserva> misReservas = reservaServicio.listarReservasUsuario(usuario);
@@ -126,9 +139,9 @@ public class PortalControlador {
 
     @PostMapping("/registro")
     public String registro(@RequestParam String username, @RequestParam String password,
-                           @RequestParam String password2, @RequestParam String nombre,
-                           @RequestParam String email, @RequestParam String telefono,
-                           @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
+            @RequestParam String password2, @RequestParam String nombre,
+            @RequestParam String email, @RequestParam String telefono,
+            @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
 
         try {
 

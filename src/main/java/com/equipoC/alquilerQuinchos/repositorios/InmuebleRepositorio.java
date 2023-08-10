@@ -63,7 +63,7 @@ public interface InmuebleRepositorio extends JpaRepository<Inmueble, Long> {
     public List<Inmueble> findAllCoche(@Param("search") String search);
 
     @Query(
-            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 OR inmueble.parrilla=1 OR inmueble.cochera=1",
+            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 AND inmueble.parrilla=1 AND inmueble.cochera=1",
             nativeQuery = true
     )
     public abstract List<Inmueble> findAllTodosNull(@Param("search") String search);
@@ -75,13 +75,13 @@ public interface InmuebleRepositorio extends JpaRepository<Inmueble, Long> {
     public abstract List<Inmueble> findAllPileNull(@Param("search") String search);
 
     @Query(
-            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 OR inmueble.parrilla=1",
+            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 AND inmueble.parrilla=1",
             nativeQuery = true
     )
     public List<Inmueble> findAllPileParriNull(@Param("search") String search);
 
     @Query(
-            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 OR inmueble.cochera=1",
+            value = "SELECT * FROM inmueble WHERE inmueble.pileta=1 AND inmueble.cochera=1",
             nativeQuery = true
     )
     public List<Inmueble> findAllPileCocheNull(@Param("search") String search);
@@ -93,7 +93,7 @@ public interface InmuebleRepositorio extends JpaRepository<Inmueble, Long> {
     public List<Inmueble> findAllParriNull(@Param("search") String search);
 
     @Query(
-            value = "SELECT * FROM inmueble WHERE inmueble.parrilla=1 OR inmueble.cochera=1",
+            value = "SELECT * FROM inmueble WHERE inmueble.parrilla=1 AND inmueble.cochera=1",
             nativeQuery = true
     )
     public List<Inmueble> findAllParriCocheNull(@Param("search") String search);
