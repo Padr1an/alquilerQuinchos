@@ -45,9 +45,15 @@ public class InmuebleControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
 
     @PostMapping("/crear_inmueble")
-    public String crearInmueble(@RequestParam String nombre, @RequestParam String ubicacion, @RequestParam(required = false) Boolean cochera, @RequestParam(required = false) Boolean parrilla,
-            @RequestParam(required = false) Boolean pileta, @RequestParam Double precioBase, @RequestParam("archivosImagenes") List<MultipartFile> archivosImagenesList,
-            ModelMap modelo, HttpSession session) {
+    public String crearInmueble(@RequestParam String descripcion, @RequestParam String nombre,
+                                @RequestParam String ubicacion,
+                                @RequestParam(required = false) Boolean cochera,
+                                @RequestParam(required = false) Boolean parrilla,
+                                @RequestParam(required = false) Boolean pileta,
+                                @RequestParam Double precioBase,
+                                @RequestParam("archivosImagenes") List<MultipartFile> archivosImagenesList,
+                                ModelMap modelo, HttpSession session) {
+
         if (cochera == null) {
             cochera = false;
         }
@@ -76,7 +82,7 @@ public class InmuebleControlador {
 
             Usuario usuarioPropietario = (Usuario) session.getAttribute("usuariosession");
 
-            inmuebleServicio.crearInmueble(nombre, ubicacion, cochera, parrilla, pileta, precioFinal, precioBase, archivosImagenesList, usuarioPropietario.getId());
+            inmuebleServicio.crearInmueble(descripcion, nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioFinal, archivosImagenesList, usuarioPropietario.getId());
 
             modelo.addAttribute("mensaje", "Inmueble creado exitosamente.");
 
@@ -115,30 +121,51 @@ public class InmuebleControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
-
     public String actualizarInmueble(@PathVariable Long id, @RequestParam(required = false) String nombre,
+                                     @RequestParam(required = false) String descripcion,
                                      @RequestParam(required = false) String ubicacion,
                                      @RequestParam(required = false) Boolean cochera,
                                      @RequestParam(required = false) Boolean parrilla,
                                      @RequestParam(required = false) Boolean pileta,
                                      @RequestParam(required = false) Double precioBase,
-                                     @RequestParam(required = false) Double precioTotal,
                                      @RequestParam(value = "archivosImagenes", required = false) List<MultipartFile> archivosImagenes,
                                      ModelMap modelo, HttpServletRequest request) throws MiException {
 
+        if (cochera == null) {
+            cochera = false;
+        }
+        if (parrilla == null) {
+            parrilla = false;
+        }
+        if (pileta == null) {
+            pileta = false;
+        }
+
         try {
-            Inmueble inmueble = inmuebleServicio.modificarInmueble(id, nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioTotal, archivosImagenes);
+            Double subtotal1 = (double) 0;
+            Double subtotal2 = (double) 0;
+            Double subtotal3 = (double) 0;
+
+            if (cochera == true) {
+                subtotal1 = precioBase * 0.1;
+            } else if (pileta == true) {
+                subtotal2 = precioBase * 0.1;
+            } else if (parrilla == true) {
+                subtotal3 = precioBase * 0.1;
+            }
+            Double precioTotal = subtotal1 + subtotal2 + subtotal3 + precioBase;
+
+            Inmueble inmueble = inmuebleServicio.modificarInmueble(descripcion, id, nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioTotal, archivosImagenes);
             modelo.addAttribute("inmueble", inmueble);
             modelo.put("exito", "Datos modificados con éxito");
 
         } catch (MiException ex) {
-            return "redirect:../mis_inmuebles";
+            modelo.addAttribute("error", "Error al modificar el inmueble: " + ex.getMessage());
         }
-        return "redirect:/inicio";
+        return "/inicio";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
-
     @PostMapping("/eliminar/{id}")
     public String eliminarInmueble(@PathVariable Long id) throws MiException {
         inmuebleServicio.eliminarInmueble(id);
@@ -150,12 +177,13 @@ public class InmuebleControlador {
     public String inmuebleDetalles(@PathVariable("idImnueble") Long id, ModelMap modelo) {
         Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
         List<Comentarios> comentario = comentariosRepositorio.buscarComentariosPorIdInm(id);
-        List<Imagen> img =  inmueble.getImagenInmueble();
+        List<Imagen> imagen = imagenRepositorio.buscarImagenesPorIdDeInmb(id);
         modelo.addAttribute("inmueble", inmueble);
         modelo.addAttribute("comentarios", comentario);
-        modelo.addAttribute("img", img);
+        modelo.addAttribute("img", imagen);
         return "detalle_inmueble.html";
     }
+
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO')")
     @GetMapping("/reservas/{idImnueble}")
     public String reservaInmueble(@PathVariable("idImnueble") Long id, ModelMap modelo) {

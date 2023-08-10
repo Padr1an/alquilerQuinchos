@@ -42,6 +42,7 @@
                    placeholder="Precio Base">
             <input type="file" class="form-control" name="archivosImagenes" accept="image/*"
                    placeholder="Imagen del Inmueble" multiple>
+            <textarea name="descripcion" th:value="${inmueble.descripcion}" maxlength="600" rows="7" cols="60" required></textarea>
 
             <button type="submit" class="boton">Actualizar</button>
         </form>
