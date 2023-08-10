@@ -75,6 +75,7 @@ public class PortalControlador {
         return "nosotros.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
 
     public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search,
@@ -153,7 +154,7 @@ public class PortalControlador {
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "redirect:/";
+            return "registro.html";
         }
 
     }

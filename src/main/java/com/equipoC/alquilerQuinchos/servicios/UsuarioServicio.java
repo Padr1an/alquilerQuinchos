@@ -118,8 +118,18 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     private void validarCrearUsuario(String username, String password, String password2, String nombre, String email, String telefono, String rol) throws MiException {
+
+        
+
         if (username.isEmpty() || username == null) {
             throw new MiException("El nombre de usuario no puede ser nulo o estar vacío");
+        }
+
+        if (username != null && !(usuarioRepositorio.findAll().isEmpty())) {
+            if (usuarioRepositorio.buscarUsernameRepetido(username)>=1) {
+                System.out.println("nombres:"+usuarioRepositorio.buscarUsernameRepetido(username));
+                throw new MiException("Nombre de usuario ocupado. Elija otro");
+            }
         }
 
         if (password.isEmpty() || password == null || password.length() <= 5) {
@@ -144,7 +154,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (rol.isEmpty() || rol == null) {
             throw new MiException("El rol no puede estar vacío");
         }
-        
+
         if (!password.equals(password2)) {
             throw new MiException("Las contraseñas ingresadas deben ser iguales");
         }
@@ -152,8 +162,16 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     private void validarModificarUsuario(String username, String password, String nombre, String telefono, String rol) throws MiException {
+
+        
         if (username.isEmpty() || username == null) {
             throw new MiException("El nombre de usuario no puede ser nulo o estar vacío");
+        }
+        
+        if (username != null && !(usuarioRepositorio.findAll().isEmpty())) {
+            if (usuarioRepositorio.buscarUsernameRepetido(username)!=0) {
+                throw new MiException("Nombre de usuario ocupado. Elija otro");
+            }
         }
 
         if (password.isEmpty() || password == null || password.length() <= 5) {

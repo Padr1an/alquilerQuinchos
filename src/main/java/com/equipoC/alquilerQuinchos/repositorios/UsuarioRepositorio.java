@@ -31,6 +31,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     )
     public Boolean buscarEstado(@Param("email") String email);
 
-
+    @Query(
+            value = "SELECT COUNT(username) FROM usuario WHERE usuario.username LIKE %:username%",
+            nativeQuery = true
+    )
+    public int buscarUsernameRepetido(@Param("username") String username);
 
 }
