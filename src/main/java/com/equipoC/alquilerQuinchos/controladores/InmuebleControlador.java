@@ -91,7 +91,6 @@ public class InmuebleControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
-
     @GetMapping("/mis_inmuebles")
     public String misInmuebles(ModelMap model, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
@@ -107,7 +106,6 @@ public class InmuebleControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
-
     @GetMapping("/modificar/{id}")
     public String mostrarFormularioModificarInmueble(@PathVariable Long id, ModelMap modelo) {
         List<Imagen> imagen = imagenRepositorio.buscarImagenesPorIdDeInmb(id);
@@ -151,7 +149,6 @@ public class InmuebleControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN','ROLE_CLIENTE')")
-
     @GetMapping("/detalles/{idImnueble}")
     public String inmuebleDetalles(@PathVariable("idImnueble") Long id, ModelMap modelo) {
         Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
@@ -162,5 +159,13 @@ public class InmuebleControlador {
 
         return "detalle_inmueble.html";
     }
+    @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO')")
+    @GetMapping("/reservas/{idImnueble}")
+    public String reservaInmueble(@PathVariable("idImnueble") Long id, ModelMap modelo) {
+        Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
 
+        modelo.addAttribute("inmueble", inmueble);
+
+        return "reservas_inmuebles.html";
+    }
 }
