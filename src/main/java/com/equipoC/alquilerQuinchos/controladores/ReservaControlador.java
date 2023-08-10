@@ -13,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,6 +100,7 @@ public class ReservaControlador {
     public String mostrarFormularioModificarReserva(@PathVariable Long id, ModelMap modelo) {
         Reserva reserva = reservaServicio.getOne(id);
         modelo.addAttribute("reserva", reserva);
+
         return "reserva_modificar.html";
     }
 
@@ -118,8 +121,16 @@ public class ReservaControlador {
         }
     }
     @PostMapping("/eliminar/{id}")
-    public String eliminarReserva(@PathVariable Long id) throws MiException {
-        reservaServicio.eliminarReserva(id);
-        return "redirect:../../mis_reservas";
+    public RedirectView eliminarReserva(@PathVariable Long id, HttpServletRequest request, ModelMap modelo) throws MiException {
+        try {
+            reservaServicio.eliminarReserva(id);
+        }catch (MiException e){
+            modelo.put("error", e.getMessage());
+        }
+        String referer = request.getHeader("referer");
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(referer); // Redirige a la página anterior
+        return redirectView;
     }
 }

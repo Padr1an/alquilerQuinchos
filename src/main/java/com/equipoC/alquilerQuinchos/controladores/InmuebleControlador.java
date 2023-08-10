@@ -150,7 +150,7 @@ public class InmuebleControlador {
     public String inmuebleDetalles(@PathVariable("idImnueble") Long id, ModelMap modelo) {
         Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
         List<Comentarios> comentario = comentariosRepositorio.buscarComentariosPorIdInm(id);
-
+        List<Imagen> img =  inmueble.getImagenInmueble();
         modelo.addAttribute("inmueble", inmueble);
         modelo.addAttribute("comentarios", comentario);
 
@@ -160,9 +160,10 @@ public class InmuebleControlador {
     @GetMapping("/reservas/{idImnueble}")
     public String reservaInmueble(@PathVariable("idImnueble") Long id, ModelMap modelo) {
         Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
+        List<Reserva> reserva = reservaServicio.listarReservasPorIdInm(id);
 
         modelo.addAttribute("inmueble", inmueble);
-
+        modelo.addAttribute("reserva", reserva);
         return "reservas_inmuebles.html";
     }
 }

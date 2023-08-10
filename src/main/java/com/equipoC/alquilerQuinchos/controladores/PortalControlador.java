@@ -67,7 +67,9 @@ public class PortalControlador {
 
     @GetMapping("/inicio")
 
-    public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla, @RequestParam(value = "cochera", required = false) String cochera) {
+    public String inicio(HttpSession session, ModelMap modelo, @RequestParam(value = "search", required = false) String search,
+                         @RequestParam(value = "pileta", required = false) String pileta, @RequestParam(value = "parrilla", required = false) String parrilla,
+                         @RequestParam(value = "cochera", required = false) String cochera) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
@@ -164,8 +166,6 @@ public class PortalControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/perfil")
-
-
     public String actualizar(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nombre, @RequestParam String email,
             @RequestParam String telefono, @RequestParam String rol, @RequestParam(required = false) MultipartFile archivo, HttpSession session, ModelMap modelo) {
 
