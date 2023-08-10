@@ -99,8 +99,8 @@ public class InmuebleControlador {
         List<Inmueble> misInmuebles = inmuebleServicio.listarInmueblesUsuario(usuarioLogueado.getId());
         model.addAttribute("misInmuebles", misInmuebles);
         model.addAttribute("cliente", usuarioLogueado);
-        List<Reserva> reservas = reservaServicio.listarReservas();
-        model.addAttribute("reservas", reservas);
+//        List<Reserva> reservas = reservaServicio.listarReservas();
+//        model.addAttribute("reservas", reservas);
 
         return "mis_inmuebles.html";
     }

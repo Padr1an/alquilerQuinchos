@@ -32,9 +32,10 @@ public class ReservaControlador {
     private ReservaServicio reservaServicio;
     @Autowired
     private InmuebleRepositorio inmuebleRepositorio;
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @GetMapping("/alta/{id}")
-    public String crearReserva(HttpSession session,@PathVariable("id") Long idInmueble, ModelMap modelo) throws ParseException {
+    public String crearReserva(HttpSession session, @PathVariable("id") Long idInmueble, ModelMap modelo) throws ParseException {
 
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
         Inmueble inmueble = inmuebleRepositorio.buscarPorId(idInmueble);
@@ -42,28 +43,27 @@ public class ReservaControlador {
         modelo.addAttribute("cliente", logueado);
         modelo.addAttribute("idInmueble", idInmueble);
 
-        ArrayList <Date> alta = new ArrayList<>();
-        for (Reserva lista : inmueble.getReserva()
-             ) {
+        ArrayList<Date> alta = new ArrayList<>();
+        for (Reserva lista : inmueble.getReserva()) {
             alta.add(lista.getFechaAlta());
         }
 
-        ArrayList <Date> baja = new ArrayList<>();
-        for (Reserva lista : inmueble.getReserva()
-        ) {
+        ArrayList<Date> baja = new ArrayList<>();
+        for (Reserva lista : inmueble.getReserva()) {
             baja.add(lista.getFechaBaja());
         }
         for (Date imp : alta) {
             System.out.println(imp);
         }
-        modelo.addAttribute("bajas" , baja);
-        modelo.addAttribute("altas" , alta);
+        modelo.addAttribute("bajas", baja);
+        modelo.addAttribute("altas", alta);
         return "crear_reserva.html";
     }
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/alta")
     public String reserva(@RequestParam Long idInmueble, @RequestParam String fechaAlta,
-                          @RequestParam String fechaBaja, @RequestParam String idCliente, HttpSession session, ModelMap modelo) throws MiException, ParseException {
+            @RequestParam String fechaBaja, @RequestParam String idCliente, HttpSession session, ModelMap modelo) throws MiException, ParseException {
 
         Usuario clienteSession = (Usuario) session.getAttribute("clientesession");
         System.out.println(fechaAlta);
@@ -83,8 +83,8 @@ public class ReservaControlador {
 
         System.out.println(entrada);
         System.out.println(salida);
-        try{
-            reservaServicio.crearReserva(entrada,salida, idInmueble, idCliente);
+        try {
+            reservaServicio.crearReserva(entrada, salida, idInmueble, idCliente);
             modelo.put("exito", "La reserva fue cargada correctamente");
             return "redirect:../../inicio";
         } catch (MiException e) {
@@ -93,9 +93,31 @@ public class ReservaControlador {
             return "redirect:/inicio";
         }
     }
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
-    public String mostrarFormularioModificarReserva(@PathVariable Long id, ModelMap modelo) {
+    public String mostrarFormularioModificarReserva(HttpSession session, @PathVariable("id") Long idInmueble, @PathVariable Long id, ModelMap modelo) {
+                Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        Inmueble inmueble = inmuebleRepositorio.buscarPorId(idInmueble);
+
+        modelo.addAttribute("cliente", logueado);
+        modelo.addAttribute("idInmueble", idInmueble);
+
+        ArrayList<Date> alta = new ArrayList<>();
+        for (Reserva lista : inmueble.getReserva()) {
+            alta.add(lista.getFechaAlta());
+        }
+
+        ArrayList<Date> baja = new ArrayList<>();
+        for (Reserva lista : inmueble.getReserva()) {
+            baja.add(lista.getFechaBaja());
+        }
+        for (Date imp : alta) {
+            System.out.println(imp);
+        }
+        modelo.addAttribute("bajas", baja);
+        modelo.addAttribute("altas", alta);
+        
         Reserva reserva = reservaServicio.getOne(id);
         modelo.addAttribute("reserva", reserva);
         return "reserva_modificar.html";
@@ -104,12 +126,26 @@ public class ReservaControlador {
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String actualizarReserva(@PathVariable Long id,
-                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaAlta,
-                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaBaja,
-                                    ModelMap modelo) {
+            @RequestParam String fechaAlta,
+            @RequestParam String fechaBaja,
+            ModelMap modelo) throws ParseException {
+
+        Date entrada = new Date();
+        Date salida = new Date();
+        SimpleDateFormat formato_YMD = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato_DMY = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
-            reservaServicio.modificarReserva(id, fechaAlta, fechaBaja);
+            entrada = formato_YMD.parse(fechaAlta);
+            salida = formato_YMD.parse(fechaBaja);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        salida = formato_YMD.parse(fechaBaja);
+        
+        try {
+            reservaServicio.modificarReserva(id, entrada, salida);
             modelo.put("exito", "La reserva fue modificada corectamente");
             return "redirect:../../inicio";
         } catch (MiException e) {
@@ -117,6 +153,7 @@ public class ReservaControlador {
             return "modificar_reserva.html";
         }
     }
+
     @PostMapping("/eliminar/{id}")
     public String eliminarReserva(@PathVariable Long id) throws MiException {
         reservaServicio.eliminarReserva(id);
