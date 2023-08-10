@@ -35,7 +35,7 @@
                         <tr th:each="inmueble : ${misInmuebles}">
                             <td th:text="${inmueble.nombre}"></td>
                             <td th:text="${inmueble.ubicacion}"></td>
-                            <td><a th:href="@{'/inmueble/detalles/' + ${inmueble.id}}"><img  width="200px" height="200px" th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
+                            <td><a><img  width="200px" height="200px" th:src="@{'/imagen/inmueble/' + ${inmueble.id}}" alt="Imagen del inmueble"></a></td>
                             <td>
                                 <!--<table>
                                     &lt;!&ndash;<tr th:each="reservas : ${reservas}">

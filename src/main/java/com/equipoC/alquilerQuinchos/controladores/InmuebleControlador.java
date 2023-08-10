@@ -153,7 +153,7 @@ public class InmuebleControlador {
         List<Imagen> img =  inmueble.getImagenInmueble();
         modelo.addAttribute("inmueble", inmueble);
         modelo.addAttribute("comentarios", comentario);
-
+        modelo.addAttribute("img", img);
         return "detalle_inmueble.html";
     }
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO')")

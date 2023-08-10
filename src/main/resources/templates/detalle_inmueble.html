@@ -47,11 +47,11 @@
                         </thead>
                         <tbody>
                             <tr th:each="comentarios : ${comentarios}">
-                                <td th:text="${comentarios.fechaPublicacion}"></td>
+                                <td th:text="${#dates.format(comentarios.fechaPublicacion, 'dd-MM-yyyy')}"></td>
                                 <td th:text="${comentarios.userCliente.username}"></td>
                                 <td th:text="${comentarios.calificacion}"></td>
                                 <td th:text="${comentarios.comentario}"></td>
-                                <td><img th:src="@{'/imagen/lista/'}" alt="Fotos del comentario"></a></td>
+                                <td><img height="100px" th:src="@{'/imagen/comentarios/'+ ${comentarios.id}}" alt="Fotos del comentario"></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,7 +60,6 @@
                 <a class="boton" type="button" th:href="@{'/reserva/alta/' + ${inmueble.id}}">¡Haz tu Reserva!</a>
             </div>
         </div>
-
         <br><br><br>
 
         <footer th:replace="/fragments/footer :: footer"></footer>

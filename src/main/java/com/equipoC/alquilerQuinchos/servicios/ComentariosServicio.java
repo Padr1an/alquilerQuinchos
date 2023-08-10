@@ -152,6 +152,7 @@ public class ComentariosServicio {
 
     }
 
+
     private void validarComentario(String comentario, int calificacion, List<MultipartFile> fotos) throws MiException {
 
         if (comentario == null || comentario.isEmpty()) {
