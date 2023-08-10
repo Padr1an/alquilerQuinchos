@@ -5,7 +5,6 @@ import com.equipoC.alquilerQuinchos.excepciones.MiException;
 import com.equipoC.alquilerQuinchos.repositorios.ComentariosRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.ImagenRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.InmuebleRepositorio;
-import com.equipoC.alquilerQuinchos.servicios.CalendarioServicio;
 import com.equipoC.alquilerQuinchos.servicios.InmuebleServicio;
 import com.equipoC.alquilerQuinchos.servicios.ReservaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -98,11 +96,10 @@ public class InmuebleControlador {
         List<Inmueble> misInmuebles = inmuebleServicio.listarInmueblesUsuario(usuarioLogueado.getId());
         model.addAttribute("misInmuebles", misInmuebles);
         model.addAttribute("cliente", usuarioLogueado);
-        /*List<Reserva> reservas = reservaServicio.listarReservas();
-        model.addAttribute("reservas", reservas);*/
 
-
-        return "mis_inmuebles.html";
+       // List<Reserva> reservas = reservaServicio.listarReservas();
+       // model.addAttribute("reservas", reservas);
+     return "mis_inmuebles.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")

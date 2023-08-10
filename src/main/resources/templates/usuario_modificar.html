@@ -13,7 +13,7 @@
     <body>
 
         <nav th:replace="/fragments/navbar :: nav"></nav>
-         <div th:insert="/fragments/msg :: msg"></div>
+        <div th:insert="/fragments/msg :: msg"></div>
 
         <br><br><br>
 
@@ -37,8 +37,8 @@
                     <button type="submit" class="boton">Actualizar</button>
                 </form>
                 <br>
-                <form th:action="@{/perfil/eliminar}" method="post">
-                    <button type="submit" class="boton">Eliminar Cuenta</button>
+                <form th:action="@{/perfil/eliminar/usuarios/{id}}" method="post">
+                    <button th:if="${session.usuariosession.rol != usuario.rol}" type="submit" class="boton">Eliminar Cuenta</button>
                 </form>
             </div>
         </div>
