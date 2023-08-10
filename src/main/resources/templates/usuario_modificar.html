@@ -13,7 +13,7 @@
     <body>
 
         <nav th:replace="/fragments/navbar :: nav"></nav>
-         <div th:insert="/fragments/msg :: msg"></div>
+        <div th:insert="/fragments/msg :: msg"></div>
 
         <br><br><br>
 
@@ -25,7 +25,7 @@
                     <input type="text" class="form-control" name="email" th:value="${usuario.email}">
                     <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}">
                     <tr>
-                        <td><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
+                        <td><a><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
                     </tr>
 
                     <br>
@@ -37,8 +37,9 @@
                     <button type="submit" class="boton">Actualizar</button>
                 </form>
                 <br>
-                <form th:action="@{/perfil/eliminar}" method="post">
-                    <button type="submit" class="boton">Eliminar Cuenta</button>
+
+                <form th:action="@{/perfil/eliminar/usuarios/{id}}" method="post">
+                    <button th:if="${session.usuariosession.rol != usuario.rol}" type="submit" class="boton">Eliminar Cuenta</button>
                 </form>
             </div>
         </div>

@@ -24,6 +24,8 @@ public interface ImagenRepositorio extends JpaRepository<Imagen, String>{
     @Query("SELECT i FROM Imagen i WHERE i.inmueble.id = :id ")
     public List<Imagen> buscarImagenesPorIdDeInmb(@Param("id") Long id);
 
+    @Query("SELECT i FROM Imagen i WHERE i.comentarios.id = :id ")
+    public Imagen buscarImagenesPorIdDeComent(@Param("id") String id);
     
     
 }

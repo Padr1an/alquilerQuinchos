@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alquiler para fiestas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="formularios.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+</head>
+<body>
+
+<nav th:replace="/fragments/navbar :: nav"></nav>
+<div th:insert="/fragments/msg :: msg"></div>
+
+<br><br><br>
+
+<div class="card-container">
+    <div class="card">
+        <h3 class="card-title">Inmueble: <h6 th:text="${inmueble.nombre}"></h6></h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Telefono</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reserva : ${reserva}">
+                <td th:text="${reserva.usuario.nombre}"></td>
+                <td th:text="${reserva.usuario.telefono}"></td>
+                <td th:text="${#dates.format(reserva.fechaAlta, 'dd-MM-yyyy')}"></td>
+                <td th:text="${#dates.format(reserva.fechaBaja, 'dd-MM-yyyy')}"></td>
+                <td>
+                    <h8>Activa</h8>
+                    <form method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-link">Confirmar</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/reserva/eliminar/{id}(id=${reserva.id})}" method="post"
+                          style="display: inline;">
+                        <button type="submit" class="btn btn-link">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br><br><br>
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
