@@ -1,10 +1,13 @@
 package com.equipoC.alquilerQuinchos.controladores;
 
+import com.equipoC.alquilerQuinchos.entidades.Comentarios;
 import com.equipoC.alquilerQuinchos.entidades.Imagen;
 import com.equipoC.alquilerQuinchos.entidades.Inmueble;
 import com.equipoC.alquilerQuinchos.entidades.Usuario;
 import com.equipoC.alquilerQuinchos.excepciones.MiException;
+import com.equipoC.alquilerQuinchos.repositorios.ComentariosRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.ImagenRepositorio;
+import com.equipoC.alquilerQuinchos.servicios.ComentariosServicio;
 import com.equipoC.alquilerQuinchos.servicios.ImagenServicio;
 import com.equipoC.alquilerQuinchos.servicios.InmuebleServicio;
 import com.equipoC.alquilerQuinchos.servicios.UsuarioServicio;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/imagen")
@@ -34,6 +38,8 @@ public class ImagenControlador {
     ImagenServicio imagenServicio;
     @Autowired
     ImagenRepositorio imagenRepositorio;
+    @Autowired
+    ComentariosRepositorio comentariosRepositorio;
 
     @GetMapping("/perfil/{id}")
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {
@@ -65,6 +71,16 @@ public class ImagenControlador {
 
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
 
+    }
+    @GetMapping("/comentarios/{id}")
+    public ResponseEntity<byte[]> imagenComentarios(@PathVariable String id) {
+
+        Imagen imagine = imagenRepositorio.buscarImagenesPorIdDeComent(id);
+        byte[] imagen = imagine.getContenido();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
     }
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminar(@PathVariable("id") String id, HttpServletRequest request, ModelMap modelo)

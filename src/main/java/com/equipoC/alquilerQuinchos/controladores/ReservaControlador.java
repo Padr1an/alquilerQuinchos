@@ -98,12 +98,13 @@ public class ReservaControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
-    public String mostrarFormularioModificarReserva(HttpSession session, @PathVariable("id") Long idInmueble, @PathVariable Long id, ModelMap modelo) {
+    public String mostrarFormularioModificarReserva(HttpSession session, @PathVariable("id") Long idReserva, @PathVariable Long id, ModelMap modelo) {
                 Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-        Inmueble inmueble = inmuebleRepositorio.buscarPorId(idInmueble);
+                Reserva reserva = reservaServicio.getOne(idReserva);
+                Inmueble inmueble = inmuebleRepositorio.buscarPorId(reserva.getInmueble().getId());
 
         modelo.addAttribute("cliente", logueado);
-        modelo.addAttribute("idInmueble", idInmueble);
+        modelo.addAttribute("idInmueble", inmueble.getId());
 
         ArrayList<Date> alta = new ArrayList<>();
         for (Reserva lista : inmueble.getReserva()) {
@@ -119,8 +120,7 @@ public class ReservaControlador {
         }
         modelo.addAttribute("bajas", baja);
         modelo.addAttribute("altas", alta);
-        
-        Reserva reserva = reservaServicio.getOne(id);
+
         modelo.addAttribute("reserva", reserva);
 
         return "reserva_modificar.html";
