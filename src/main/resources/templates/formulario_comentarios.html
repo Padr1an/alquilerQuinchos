@@ -26,27 +26,12 @@
                     <input type="hidden" name="idCliente" th:value="${usuario.id}">
                     <input type="hidden" name="fechaComent" value="java.util.Date">
                     <input type="hidden" name="id" th:value="${inmueble.id}">
-                    <input type="number" name="calificacion">
+                    
                     <div class="form-group">
                         <label>
                             <h5>Fotos</h5>
                         </label>
                         <input type="file" class="form-control" name="archivo">
-                    </div>
-
-                    <div class="form-group">
-                        <p class="clasificacion" id="estrellas-container">
-                            <input id="radio1" type="radio" name="estrellas" value="5">
-                            <label for="radio1">★</label>
-                            <input id="radio2" type="radio" name="estrellas" value="4">
-                            <label for="radio2">★</label>
-                            <input id="radio3" type="radio" name="estrellas" value="3">
-                            <label for="radio3">★</label>
-                            <input id="radio4" type="radio" name="estrellas" value="2">
-                            <label for="radio4">★</label>
-                            <input id="radio5" type="radio" name="estrellas" value="1">
-                            <label for="radio5">★</label>
-                        </p>
                     </div>
 
                     <button type="submit" class="boton">Enviar</button>
@@ -61,33 +46,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script>
-            function enviarCalificacion() {
-                const estrellasContainer = document.getElementById("estrellas-container");
-                const estrellasSeleccionadas = estrellasContainer.querySelectorAll("input[type='radio']:checked");
-
-                if (estrellasSeleccionadas.length > 0) {
-                    const calificacion = estrellasSeleccionadas[0].value;
-
-                    // Se guardar la calificación
-                    const url = "URL_DEL_BACKEND/guardar-calificacion";
-                    const data = {rating: calificacion};
-
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", url, true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                            // La calificación se ha guardado exitosamente en el backend
-                            console.log("Calificación guardada correctamente");
-                        }
-                    };
-                    xhr.send(JSON.stringify(data));
-                } else {
-                    console.log("Debe seleccionar una calificación antes de enviar");
-                }
-            }
-        </script>
     </body>
 
 </html>
