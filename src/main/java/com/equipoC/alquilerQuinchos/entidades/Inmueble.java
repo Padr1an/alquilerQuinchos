@@ -30,6 +30,7 @@ public class Inmueble {
     private Boolean pileta;
     private Double precioBase;
     private Double PrecioTotal;
+    private String descripcion;
 
     @OneToMany(mappedBy = "inmueble")
     private Set<Reserva> reserva = new HashSet<>();
@@ -46,5 +47,5 @@ public class Inmueble {
     @OneToOne
     private Calendario calendarioInmueble;
 
-    
+
 }

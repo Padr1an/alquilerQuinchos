@@ -21,17 +21,17 @@
             <div class="card">
                 <h3 class="card-title">Modificar Perfil</h3>
                 <form th:action="@{/perfil/}" method="post" enctype="multipart/form-data">
-                    <input type="text" class="form-control" name="nombre" th:value="${usuario.nombre}">
-                    <input type="text" class="form-control" name="email" th:value="${usuario.email}">
-                    <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}">
+                    <input type="text" class="form-control" name="nombre" th:value="${usuario.nombre}" required>
+                    <input type="text" class="form-control" name="email" th:value="${usuario.email}" required>
+                    <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}" required>
                     <tr>
                         <td><a><img class="size-image" th:src="@{'/imagen/lista/'+${usuario.imagen.id}}" alt="Imagen del inmueble"></a></td>
                     </tr>
 
                     <br>
                     <input type="file" class="form-control" name="archivo">
-                    <input type="text" class="form-control" name="username" th:value="${usuario.username}" />
-                    <input type="password" class="form-control" name="password" placeholder="PASSWORD">
+                    <input type="text" class="form-control" name="username" th:value="${usuario.username}" required/>
+                    <input type="password" class="form-control" name="password" placeholder="Ingrese una nueva si desea modificar la contraseña">
                     <input type="hidden" name="rol" th:value="${usuario.rol}" />
                     <input type="hidden" name="id" th:value="${usuario.id}" />
                     <button type="submit" class="boton">Actualizar</button>

@@ -31,12 +31,12 @@ public class InmuebleServicio {
     private CalendarioServicio calendarioServicio;
 
     @Transactional
-    public void crearInmueble(String nombre, String ubicacion, Boolean cochera, Boolean parrilla,
+    public void crearInmueble(String descripcion, String nombre, String ubicacion, Boolean cochera, Boolean parrilla,
             Boolean pileta, Double precioBase, Double precioTotal, List<MultipartFile> imgProp,
             String idPropietario) throws MiException {
 
         //validarInmueble(nombre, ubicacion, cochera, parrilla, pileta, precioBase, precioTotal);
-        validarInmueble(nombre, ubicacion, precioBase, imgProp);
+        validarInmueble(descripcion, nombre, ubicacion, precioBase, imgProp);
         if (parrilla == null) {
             parrilla = false;
         }
@@ -54,6 +54,7 @@ public class InmuebleServicio {
         inmueble.setParrilla(parrilla);
         inmueble.setPileta(pileta);
         inmueble.setPrecioBase(precioBase);
+        inmueble.setDescripcion(descripcion);
 
         Calendario calendario = calendarioServicio.crearCalendario();
 
@@ -78,11 +79,10 @@ public class InmuebleServicio {
     }
 
     @Transactional
-
-    public Inmueble modificarInmueble(Long id, String nombre, String ubicacion, Boolean cochera, Boolean parrilla, Boolean pileta,
+    public Inmueble modificarInmueble(String descripcion,Long id, String nombre, String ubicacion, Boolean cochera, Boolean parrilla, Boolean pileta,
             Double precioBase, Double precioTotal, List<MultipartFile> archivosImagenes) throws MiException {
 
-        validarInmueble(nombre, ubicacion, precioBase, archivosImagenes);
+        validarInmueble(descripcion, nombre, ubicacion, precioBase, archivosImagenes);
 
         Inmueble inmueble = inmuebleRepositorio.findById(id).orElse(null);
 
@@ -104,6 +104,8 @@ public class InmuebleServicio {
         inmueble.setParrilla(parrilla);
         inmueble.setPileta(pileta);
         inmueble.setPrecioBase(precioBase);
+        inmueble.setPrecioTotal(precioTotal);
+        inmueble.setDescripcion(descripcion);
 
         /*double precioTotalCalculado = precioBase + (cochera != null ? cochera : 0) + (parrilla != null ? parrilla : 0) + (pileta != null ? pileta : 0);
         inmueble.setPrecioTotal(precioTotalCalculado);*/
@@ -202,7 +204,11 @@ public class InmuebleServicio {
         return inmuebleRepositorio.findAll();
     }
 
-    public boolean validarInmueble(String nombre, String ubicacion, Double precioBase, List<MultipartFile> archivos) throws MiException {
+    public boolean validarInmueble(String descripcion, String nombre, String ubicacion, Double precioBase, List<MultipartFile> archivos) throws MiException {
+
+        if (descripcion.isEmpty() || descripcion == null) {
+            throw new MiException("Debe realizar una breve descripción del inmueble");
+        }
 
         if (nombre.isEmpty() || nombre == null) {
             throw new MiException("El nombre de usuario no puede ser nulo o estar vacío");
