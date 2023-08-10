@@ -1,6 +1,7 @@
 package com.equipoC.alquilerQuinchos.controladores;
 
 import com.equipoC.alquilerQuinchos.Enumeraciones.Rol;
+import com.equipoC.alquilerQuinchos.entidades.Imagen;
 import com.equipoC.alquilerQuinchos.entidades.Inmueble;
 import com.equipoC.alquilerQuinchos.entidades.Reserva;
 import com.equipoC.alquilerQuinchos.entidades.Usuario;
@@ -145,7 +146,6 @@ public class PortalControlador {
             @RequestParam("rol") String rol, MultipartFile archivo, ModelMap modelo) throws MiException {
 
         try {
-
             usuarioServicio.crearUsuario(username, password, password2, nombre, email, telefono, rol, archivo);
 
             modelo.put("exito", "Usuario registrado correctamente!");

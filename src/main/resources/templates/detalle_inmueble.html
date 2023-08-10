@@ -32,7 +32,7 @@
                         <img th:src="@{${'/img/logo-alquiler-para-fiestas.png'}}" class="d-block w-100" alt="1" >
                     </div>
                     <div class="carousel-item" th:each="img : ${img}" data-bs-interval="6000">
-                        <img th:src="@{'/imagen/lista/'+${img.id}}" class="d-block w-100" alt="2">
+                        <img th:src="@{'/imagen/lista/'+${img.id}}" class="d-block w-100" alt="2" width="600px" height="auto";>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div>
                 <br>
                 <div>
-                    <h6 th:text="${inmueble.nombre}"></h6>
+                    <h6 th:text="${inmueble.nombre} + ' -   Precio por día: $'+ ${inmueble.precioTotal}"></h6>
                     <h6 th:text="${inmueble.ubicacion}"></h6>
                     <p class="parrafo">
                         <h8 th:text="${inmueble.descripcion}"></h8>

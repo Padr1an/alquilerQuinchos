@@ -30,7 +30,6 @@ public class InmuebleControlador {
     private InmuebleServicio inmuebleServicio;
     @Autowired
     private ReservaServicio reservaServicio;
-
     @Autowired
     private ImagenRepositorio imagenRepositorio;
 
