@@ -23,25 +23,28 @@
       <thead>
       <tr>
         <th>Inmueble</th>
+        <th>Cliente</th>
         <th>Entrada</th>
         <th>Salida</th>
-        <th>Acciones</th>
         <th>Estado</th>
+        <th>Acciones</th>
+
       </tr>
       </thead>
       <tbody>
-      <tr th:each="reserva : ${misReservas}">
-        <td th:text="${reserva.inmueble.nombre}"></td>
-        <td th:text="${#dates.format(reserva.fechaAlta, 'dd-MM-yyyy')}"></td>
-        <td th:text="${#dates.format(reserva.fechaBaja, 'dd-MM-yyyy')}"></td>
+      <tr>
         <td>
-          <a th:href="@{/reserva/modificar/{id}(id=${reserva.id})}" class="violetlink">Modificar</a>
-          <form th:action="@{/reserva/eliminar/{id}(id=${reserva.id})}" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-link">Eliminar</button>
-          </form>
         </td>
         <td>
-          <a th:href="@{/comentarios/registro/__${reserva.inmueble.id}__}" class="violetlink">Comentar</a>
+          <a class="violetlink">Comentar</a>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
         </td>
       </tr>
       </tbody>
