@@ -5,6 +5,8 @@ import com.equipoC.alquilerQuinchos.excepciones.MiException;
 import com.equipoC.alquilerQuinchos.repositorios.ComentariosRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.ImagenRepositorio;
 import com.equipoC.alquilerQuinchos.repositorios.InmuebleRepositorio;
+import com.equipoC.alquilerQuinchos.servicios.ComentariosServicio;
+import com.equipoC.alquilerQuinchos.servicios.ImagenServicio;
 import com.equipoC.alquilerQuinchos.servicios.InmuebleServicio;
 import com.equipoC.alquilerQuinchos.servicios.ReservaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,10 @@ public class InmuebleControlador {
     private ReservaServicio reservaServicio;
     @Autowired
     private ImagenRepositorio imagenRepositorio;
+    @Autowired
+    private ImagenServicio imagenServicio;
+    @Autowired
+    private ComentariosServicio comentariosServicio;
 
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
 
@@ -167,6 +173,31 @@ public class InmuebleControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO', 'ROLE_ADMIN')")
     @PostMapping("/eliminar/{id}")
     public String eliminarInmueble(@PathVariable Long id) throws MiException {
+        Inmueble inmueble = inmuebleRepositorio.buscarPorId(id);
+        List<Comentarios> comentarios = comentariosRepositorio.buscarComentariosPorIdInm(id);
+        for (Comentarios coment : comentarios
+             ) {
+            for (Imagen img : coment.getFotos()
+            ) {
+                imagenServicio.eliminarImagen(img.getId());
+            }
+        }
+
+        for (Imagen imagen : inmueble.getImagenInmueble()) {
+            imagenServicio.eliminarImagen(String.valueOf(imagen.getId()));
+        }
+
+        for (Comentarios comen : comentarios
+             ) {
+            comentariosServicio.eliminarComentario(comen.getId());
+        }
+        List<Reserva> reserva = reservaServicio.listarReservasPorIdInm(id);
+        for (Reserva rsrv : reserva
+             ) {
+            reservaServicio.eliminarReserva(rsrv.getId());
+        }
+
+
         inmuebleServicio.eliminarInmueble(id);
         return "redirect:../../inicio";
     }
