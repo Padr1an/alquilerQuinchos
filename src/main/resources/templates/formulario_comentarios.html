@@ -5,7 +5,7 @@
         <title>Alquiler para fiestas</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/calendario.css">
+        <link rel="stylesheet" href="/formularios.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     </head>
@@ -19,16 +19,18 @@
         <div class="card-container">
             <div class="card">
                 <form th:action="@{/comentarios/registro}" method="POST" enctype="multipart/form-data">
-                    <h5>Deja tu comentario !</h5>
+                    <h5 class="card-title">Deja tu comentario !</h5>
                     <div class="form-group">
-                        <input type="text"  class="form-control form-control-sm" id="comentario" name="comentario">
+                        <textarea type="textarea"  class="form-control form-control-sm" id="comentario" name="comentario" rows="4">  </textarea>
                     </div>
                     <input type="hidden" name="idCliente" th:value="${usuario.id}">
                     <input type="hidden" name="fechaComent" value="java.util.Date">
                     <input type="hidden" name="id" th:value="${inmueble.id}">
-                    
+                    <h5>Valora tu experiencia (1-5)</h5>
+                    <input class="calif" type="number" name="calificacion" min="1" max="5">
                     <div class="form-group">
                         <label>
+                            <br>
                             <h5>Fotos</h5>
                         </label>
                         <input type="file" class="form-control" name="archivo">

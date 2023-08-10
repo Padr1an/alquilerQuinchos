@@ -40,14 +40,18 @@
                         <tr>
                             <th>Fecha</th>
                             <th>Usuario</th>
+                            <th>Calificación</th>
                             <th>Dijo</th>
+                            <th>Fotos</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr th:each="comentarios : ${comentarios}">
                                 <td th:text="${comentarios.fechaPublicacion}"></td>
                                 <td th:text="${comentarios.userCliente.username}"></td>
+                                <td th:text="${comentarios.calificacion}"></td>
                                 <td th:text="${comentarios.comentario}"></td>
+                                <td><img th:src="@{'/imagen/lista/'}" alt="Fotos del comentario"></a></td>
                             </tr>
                         </tbody>
                     </table>
